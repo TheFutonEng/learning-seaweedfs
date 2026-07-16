@@ -1,0 +1,25 @@
+# k3d cluster definition for the SeaweedFS learning environment.
+# Usage: k3d cluster create --config k3d/cluster.yaml
+# Docs: https://k3d.io/stable/usage/configfile/
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: seaweedfs-lab
+# 1 control-plane + 2 workers gives us room to see volume placement and
+# anti-affinity behavior later without being heavy on a laptop.
+servers: 1
+agents: 2
+options:
+  k3d:
+    # Wait for the server to be fully up before returning.
+    wait: true
+    timeout: "120s"
+  kubeconfig:
+    # Merge into the default kubeconfig and switch context to this cluster.
+    updateDefaultKubeconfig: true
+    switchCurrentContext: true
+  k3s:
+    nodeLabels:
+      - label: node-role=worker
+        nodeFilters:
+          - agent:*

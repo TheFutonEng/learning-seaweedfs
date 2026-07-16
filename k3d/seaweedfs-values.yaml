@@ -1,0 +1,53 @@
+# Minimal Helm values for learning SeaweedFS on K3d.
+#
+# Applied via: helm install seaweedfs seaweedfs/seaweedfs -f k3d/seaweedfs-values.yaml
+# Chart: https://seaweedfs.github.io/seaweedfs/helm  (chart "seaweedfs")
+#
+# Goal: the smallest config that gives us a working S3 endpoint to poke at.
+# Everything here is single-replica and tiny on purpose — this is a laptop lab,
+# not a production topology. We'll grow it in later phases.
+
+# --- Master: cluster coordination + volume management (default port 9333) ---
+master:
+  replicas: 1
+  # Small volume size limit so we can watch new volumes get created as we write.
+  data:
+    type: "persistentVolumeClaim"
+    size: "1Gi"
+    storageClass: "local-path"   # k3d/k3s default storage class
+
+# --- Volume: the actual object/data storage (default port 8080) ---
+# NOTE: the volume server configures storage via `dataDirs` (a LIST), NOT the
+# `data` map used by master/filer. The chart default is an ephemeral hostPath
+# (/ssd) — easy to miss, and it means object bytes would NOT survive on a real
+# PVC. We override to a persistentVolumeClaim so data is durable.
+volume:
+  replicas: 1
+  dataDirs:
+    - name: data1
+      type: "persistentVolumeClaim"
+      size: "2Gi"
+      storageClass: "local-path"
+      maxVolumes: 0   # 0 = auto-configure the max volume count
+
+# --- Filer: filesystem + metadata layer, backs the S3 gateway (default port 8888) ---
+filer:
+  replicas: 1
+  data:
+    type: "persistentVolumeClaim"
+    size: "1Gi"
+    storageClass: "local-path"
+
+# --- S3 gateway: the S3-compatible API we actually care about (port 8333) ---
+# NOTE: s3.enabled defaults to FALSE in the upstream chart — this is the switch
+# that gives us an S3 endpoint at all.
+s3:
+  enabled: true
+  port: 8333
+  # Require credentials on the S3 API (vs. anonymous access).
+  enableAuth: true
+  # Use our own multi-identity config (admin + bucket-scoped tenant-a/tenant-b)
+  # instead of the chart's auto-generated admin/read secret. The `just deploy`
+  # recipe applies k3d/s3-identities-secret.yaml before the Helm install so this
+  # secret exists when the s3 pod starts.
+  existingConfigSecret: seaweedfs-s3-identities
