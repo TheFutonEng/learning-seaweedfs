@@ -59,6 +59,11 @@ deploy:
         --namespace {{namespace}} --create-namespace \
         -f k3d/seaweedfs-values.yaml \
         --wait --timeout 5m
+    # The s3 gateway only reads its identity config at startup, and Helm won't
+    # roll an unchanged Deployment — so restart s3 to pick up any edits to
+    # k3d/s3-identities-secret.yaml. (No-op-ish on a fresh install.)
+    kubectl -n {{namespace}} rollout restart deploy/{{release}}-s3
+    kubectl -n {{namespace}} rollout status deploy/{{release}}-s3 --timeout=120s
     @echo "SeaweedFS deployed. Try: just status"
 
 # Uninstall the SeaweedFS release (leaves the cluster running).
@@ -633,6 +638,79 @@ mint-report:
     echo "----------------------------------------------------------------"
     echo "  Full run log: ./mint-logs/last-run.log   |   Re-run: just mint-test"
     echo "  Narrative: docs/01-test-plan.md (P3-06), docs/02-lessons.md"
+    echo "=================================================================="
+
+# Granular S3 conformance via Ceph s3-tests (boto3). Builds a container (cached),
+# runs against the S3 gateway, and persists the run to ./s3-tests/logs/last-run.log.
+# Arg selects what to run (default: the boto3 functional suite). Examples:
+#   just s3-tests                                  # full boto3 functional suite
+#   just s3-tests "s3tests/functional/test_s3.py -k versioning"
+# Cascade protection has two layers:
+#  - `--forked` (pytest-forked): each test runs in its own process, so a broken
+#    connection (SeaweedFS resets the pool on some large-object ops) can't leak
+#    into later tests. This is the key fix.
+#  - s3-tests/conftest.py bounds botocore socket timeouts (connect 10s/read 30s,
+#    no retries) so a genuine hang inside a single forked test is still bounded.
+# NOTE: deliberately NOT using pytest-timeout — its SIGALRM poisoned the pool
+# (non-forked) or crashed the session (with --forked).
+s3-tests target="s3tests/functional/test_s3.py":
+    #!/usr/bin/env bash
+    set -uo pipefail
+    mkdir -p s3-tests/logs
+    tmp="$(mktemp -d)"; pf=""
+    trap '[ -n "$pf" ] && kill $pf 2>/dev/null; rm -rf "$tmp"' EXIT
+    echo ">> Building s3-tests image (cached after first build)..."
+    docker build -q -t sw-s3-tests s3-tests/ >/dev/null
+    kubectl -n {{namespace}} port-forward svc/{{release}}-s3 {{s3_port}}:{{s3_port}} >"$tmp/pf.log" 2>&1 & pf=$!
+    for _ in $(seq 1 30); do curl -s -o /dev/null "http://localhost:{{s3_port}}" && break || sleep 0.5; done
+    echo ">> Running s3-tests: {{target}}  (log -> ./s3-tests/logs/last-run.log)"
+    {
+        echo "# generated: $(date -u +%FT%TZ)"
+        echo "# target: {{target}}"
+        docker run --rm --network host \
+            -v "$(pwd)/s3-tests/s3tests.conf:/conf/s3tests.conf:ro" \
+            -e S3TEST_CONF=/conf/s3tests.conf \
+            sw-s3-tests {{target}} \
+            --forked -q --tb=line -rA --no-header
+    } 2>&1 | tee s3-tests/logs/last-run.log
+
+# Show the saved Ceph s3-tests report; if none exists, run s3-tests first.
+s3-tests-report:
+    #!/usr/bin/env bash
+    set -uo pipefail
+    RUN=s3-tests/logs/last-run.log
+    if [ ! -s "$RUN" ]; then
+        echo ">> No saved s3-tests run — running s3-tests first..."
+        just s3-tests
+    fi
+    gen=$(grep -m1 '^# generated:' "$RUN" | cut -d' ' -f3-)
+    target=$(grep -m1 '^# target:' "$RUN" | cut -d' ' -f3-)
+    echo
+    echo "=================================================================="
+    echo " SeaweedFS S3 conformance — Ceph s3-tests (boto3)"
+    echo " generated: ${gen:-unknown}"
+    echo " target:    ${target:-unknown}"
+    echo "=================================================================="
+    # Count outcomes directly from the -rA lines (robust whether this was a
+    # single pytest run or a concatenated curated/chunked aggregate).
+    pcount=$(grep -c '^PASSED ' "$RUN" 2>/dev/null || echo 0)
+    fcount=$(grep -c '^FAILED ' "$RUN" 2>/dev/null || echo 0)
+    ecount=$(grep -c '^ERROR ' "$RUN" 2>/dev/null || echo 0)
+    total=$((pcount + fcount + ecount))
+    echo " Summary (of $total tests with a clean outcome):"
+    printf "   PASSED %-5s  FAILED %-5s  ERROR %-5s\n" "$pcount" "$fcount" "$ecount"
+    echo "----------------------------------------------------------------"
+    echo " Failure clusters (feature area -> count) — the real conformance gaps:"
+    grep '^FAILED ' "$RUN" | sed -E 's#.*::test_##; s/ - .*//' \
+      | grep -oE '^(post_object|lifecycle|encryption|sse|bucket_policy|bucket_logging|object_lock|cors|bucket_acl|object_acl|versioning|tagging|website|user_policy|iam|sts|multipart|copy|bucket|object)' \
+      | sort | uniq -c | sort -rn | head -15 | sed 's/^/  /'
+    echo "----------------------------------------------------------------"
+    echo " Errored tests by area (mostly SeaweedFS large-object instability, P3-08):"
+    grep '^ERROR ' "$RUN" | sed -E 's#.*::test_##; s/ - .*//' \
+      | grep -oE '^(copy|multipart|upload|encryption|sse|object|bucket)' \
+      | sort | uniq -c | sort -rn | head -8 | sed 's/^/  /'
+    echo "----------------------------------------------------------------"
+    echo "  Full run log: ./s3-tests/logs/last-run.log   |   Re-run: just s3-tests"
     echo "=================================================================="
 
 # Show cluster leader + volume topology from the master API (proves P1-07).

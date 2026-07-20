@@ -51,3 +51,18 @@ s3:
   # recipe applies k3d/s3-identities-secret.yaml before the Helm install so this
   # secret exists when the s3 pod starts.
   existingConfigSecret: seaweedfs-s3-identities
+  # Memory limit for the S3 gateway. The chart default is unbounded
+  # (s3.resources: {}), which let the gateway grow memory during large-object
+  # operations until it was OOM-killed at the NODE level (opaque `exit 255`).
+  # A container limit bounds it and turns a kill into a visible `OOMKilled`
+  # (exit 137) + auto-restart — proven in P3-08 (a 256Mi limit OOMKilled cleanly
+  # after ~17 sequential 16MB PUT+copy ops, then recovered).
+  # 512Mi is a reasonable lab default; a real deployment must size this to its
+  # large-object workload (max object size x concurrency + working set) and
+  # monitor, since the gateway's memory growth is not bounded by the app itself.
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 512Mi

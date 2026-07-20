@@ -15,6 +15,111 @@ short; link to test-plan IDs where relevant.
 
 ---
 
+### 2026-07-17 — Curated s3-tests full run: SeaweedFS is strong on core S3, weak on advanced features
+- Context: Ran all 838 `test_s3.py` tests in curated chunks of 50 (fresh gateway
+  + fresh port-forward per chunk, `--forked`, memory-limited gateway) to avoid the
+  cumulative-memory crash and the cascade.
+- Result: **345 passed / 353 failed / 48 errored** (746 clean outcomes).
+- The 353 failures are genuine, cleanly-returned gaps concentrated in **advanced
+  S3 features SeaweedFS doesn't implement**: bucket lifecycle, SSE/encryption,
+  bucket policies, CORS, bucket/object ACLs, browser POST-object uploads, object
+  lock/retention, bucket logging. Core + intermediate S3 (bucket/object CRUD,
+  listing, multipart basics, versioning basics, metadata, copy) largely passes.
+- The 48 errors are the **large-object instability** (copy/multipart/SSE
+  connection resets, P3-08) — NOT harness cascade. Contained to the chunks holding
+  those tests.
+- Orchestration lesson: a large-object test's connection reset also kills a
+  `kubectl port-forward` tunnel. The chunk runner MUST re-establish the
+  port-forward (and verify reachability) before every chunk, or all later chunks
+  error out (first attempt lost chunks 7+ to a dead tunnel — gateway was healthy
+  the whole time). Full results: `s3-tests/curated-results.md`.
+- Are failures just "wrong-vendor noise"? No. s3-tests targets Ceph RGW, so a few
+  failures ARE Ceph-specific — but only **13 of 353** (RGW usage stats, Ceph
+  `tenant$user` syntax, one explicit RGW bug). The other **340 are genuine gaps in
+  standard AWS S3 features** SeaweedFS doesn't implement. `s3-tests/curated-results.md`
+  tags every failure: vendor-specific vs. gap, and groups gaps by feature area
+  (SSE 64, ACLs 39, copy edge cases 36, bucket logging 35, bucket policy 31,
+  lifecycle 23, conditional writes/100-continue 23, POST uploads 20, ownership 8,
+  CORS 9, multipart 9, versioning 6, public-access-block 3, other-standard 34).
+- Verdict for the MinIO-replacement goal: SeaweedFS S3 is a good fit for apps
+  needing core/intermediate S3; apps depending on lifecycle, SSE, bucket policies,
+  CORS, full ACLs, POST uploads, or object lock need those gaps evaluated per-app.
+- Refs: P3-07, `s3-tests/curated-results.md`
+
+### 2026-07-16 — s3-tests: a signal-timeout poisons boto's connection pool → cascade; fix is per-test process isolation
+- Context: Full `s3tests/functional/test_s3.py` run (839 tests) took 4h01m and
+  reported 180 passed / 88 failed / **570 errors** / 1 skipped.
+- Finding: The 570 "errors" were NOT real — they were a **cascade**. One slow test
+  (`test_object_copy_16m`) hit the 25s `pytest-timeout`; the `--timeout-method=signal`
+  (SIGALRM) interrupted boto **mid-request**, leaving a broken connection in
+  urllib3's shared pool (`ConnectionResetError`/`ConnectionClosedError`). Every
+  subsequent test reused the poisoned pool → hung → timed out → 572 timeout events.
+  The SeaweedFS gateway was healthy throughout (0 restarts, responsive).
+- Trustworthy signal from that run (healthy-connection region, ~first third):
+  **180 passed, 87 genuine failures** (~67% pass on the 267 tests that actually
+  ran). Real failures cluster on browser **POST-object** uploads (matches Mint's
+  presigned-POST gap), **Ceph-RGW-specific usage stats** (`KeyError: 'Summary'` /
+  `x-rgw-*` headers — not real S3), metadata edge cases, list encoding,
+  `x-amz-expected-bucket-owner`.
+- Deeper root cause (corrected): It is NOT (only) a client connection-pool issue.
+  `test_object_copy_16m` (a 16 MB server-side copy) makes the SeaweedFS **s3
+  gateway reset connections** (`ConnectionResetError: reset by peer`), and during
+  the long run the **s3 gateway crashed and restarted once** (`RESTARTS 1`,
+  `exit=255`, no resource limits set → not a K8s OOM-kill). After that, requests
+  get reset for a window.
+- What did NOT fix it: `pytest-timeout` (signal) poisoned the pool; `--forked +
+  pytest-timeout` crashed pytest (`INTERNALERROR`, SIGALRM in the parent's
+  waitpid); `--forked` alone still cascaded — because the resets are **server-side**,
+  so per-test client isolation can't prevent them. Lowering botocore socket
+  timeouts (conftest) bounds hangs but not resets.
+- Current harness state: `--forked` + `s3-tests/conftest.py` (botocore
+  connect 10s/read 30s, no retries). This is the right hang-protection, but the
+  full `test_s3.py` still can't complete cleanly because large-object copy tests
+  destabilize the gateway.
+- **Root cause (confirmed by investigation) — s3 gateway memory retention:**
+  A *single* 16 MB PUT+copy+get is fine (even repeated, even with boto3
+  keep-alive reuse — reproduced cleanly, no reset). The real issue is that the
+  **s3 gateway accumulates memory during large-object operations and does not
+  release it**: measured it climb 40Mi → 117Mi → 379Mi → **450Mi and holding
+  while idle** (CPU 1m) across test rounds. With **no resource limits** (chart
+  default `s3.resources: {}`), a large-object-heavy workload grows memory until
+  the gateway is killed. That is exactly what happened in the full s3-tests run:
+  it crashed once (~34% in, `exit 255`, no K8s limit → node-level OOM), and the
+  crash's connection reset poisoned the (non-forked) client pool → 570 cascading
+  timeouts. The cascade was a *symptom*; the memory behavior is the cause.
+- Mitigation PROVEN (P3-08): Set a 256Mi `s3.resources.limits.memory`, restarted
+  to a fresh gateway (31Mi), and drove sequential 16MB PUT+copy ops. At ~iter 17
+  the container was killed with **`reason=OOMKilled`, `exitCode=137`**, then
+  **auto-restarted and recovered** (HTTP 403 in 3ms). This is the clean, visible,
+  attributable signal — vs. the unbounded default's node-level `exit 255`. The lab
+  value is set to 512Mi (usable default); the demo used 256Mi to trigger it fast.
+- Mitigations:
+  1. Set `s3.resources` requests/limits (the chart supports it) — bounds memory
+     and makes kills predictable/visible (`OOMKilled` + restart) instead of a
+     mysterious `exit 255`. Does NOT fix the growth, but contains it. PROVEN above.
+  2. Treat the **memory retention as a SeaweedFS concern to report/track** — the
+     s3 gateway appears to buffer/retain large-object memory aggressively.
+  3. For the UDS package: set s3 memory limits + monitor gateway memory under
+     realistic large-object workloads before trusting it as a MinIO replacement.
+- Practical path for granular conformance: run s3-tests in **curated slices**
+  (small groups, fresh gateway memory) so growth never reaches the crash point.
+- Refs: P3-07, P3-08, `s3-tests/*`, `just s3-tests`
+
+### 2026-07-16 — Editing the S3 identity config requires an explicit s3 restart
+- Context: Added `s3test-main/alt/tenant` identities to
+  `k3d/s3-identities-secret.yaml` (needed by Ceph s3-tests) and ran `just deploy`.
+  New keys returned `InvalidAccessKeyId`.
+- Finding: Two things combine — (1) Helm won't roll the s3 **Deployment** when its
+  pod spec is unchanged (only the mounted Secret's *content* changed), and (2) the
+  SeaweedFS s3 process reads `-config=/etc/sw/seaweedfs_s3_config` **only at
+  startup** (no hot reload). So the running pod kept serving the old identities.
+- Fix: `kubectl rollout restart deploy/seaweedfs-s3`. Made `just deploy` always
+  restart s3 after applying the secret so identity edits reliably take effect.
+- Impact: Same "config read once at startup" theme as the filer identity behavior.
+  For the UDS package, any change to S3 identities must force an s3 restart — a
+  plain secret update is silently ignored by the running gateway.
+- Refs: `k3d/s3-identities-secret.yaml`, `just deploy`
+
 ### 2026-07-15 — Phase 3b: MinIO Mint shows broad core compatibility with 3 edge gaps
 - Context: Ran MinIO Mint (awscli, mc, minio-go, s3cmd) against the S3 gateway,
   with `RUN_ON_FAIL=1` to see full results. Note Mint targets MinIO, so some
