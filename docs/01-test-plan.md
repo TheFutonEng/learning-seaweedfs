@@ -52,7 +52,10 @@ registries) expect?
 | P3-03 | Per-app scoped credentials | (covered by `just tenant-isolation-test`) | can access own bucket, denied elsewhere | ✅ | Same mechanism as P1-08 — bucket-scoped identities. |
 | P3-04 | Object metadata / content-type | `just s3-metadata-test` | metadata preserved | ✅ | ContentType + user metadata (team/env) preserved through head-object. |
 | P3-05 | SigV4 compatibility | `just s3-mc-test` | requests authenticate correctly | ✅ | MinIO `mc` (Go SDK, SigV4) full CRUD interop; presign also uses SigV4. |
-| P3-06 | Broad conformance (MinIO Mint) | `just mint-test "..."` | pass rate across SDK suites | ✅* | Core ops broadly pass (awscli 9/10, s3cmd clean). 3 edge gaps: storage classes, presigned POST policy, presigned-GET response-header overrides. See lessons. |
+| P3-06 | Broad conformance (MinIO Mint) | `just mint-report` | pass rate across SDK suites | ✅* | Core ops broadly pass (awscli 9/10, s3cmd clean). 3 edge gaps: storage classes, presigned POST policy, presigned-GET response-header overrides. See lessons. |
+| P3-07 | Granular conformance (Ceph s3-tests) | `just s3-tests-report` | per-test pass/fail across hundreds of cases | ✅ | **Full suite via curated chunks (fresh gateway/pf per chunk): 345 pass / 353 fail / 48 error** of 838. Core+intermediate S3 solid; failures are advanced features (lifecycle, SSE, bucket policy, CORS, ACLs, POST uploads, object lock). 48 errors = large-object instability (P3-08). Results in `s3-tests/curated-results.md`. |
+| P3-08 | s3 gateway memory under large-object load (SeaweedFS) | drove many 16 MB PUT+copy ops, watched `kubectl top` | memory bounded / released | ❌ | **Gateway retains memory & doesn't release it** (40→450Mi idle across runs). No resource limits (chart default) → sustained large-object load grows unbounded and crashed the pod once (`exit 255`). Root cause of the P3-07 cascade. |
+| P3-09 | Mitigation: bound s3 memory with a limit | set `s3.resources.limits.memory=256Mi`, drove load | clean, visible kill + recovery | ✅ | Killed at ~17 ops with **`OOMKilled` / exit 137** (vs opaque `exit 255`), **auto-restarted & recovered**. Lab default set to 512Mi. Direct input for the UDS package: set s3 memory limits + monitor. |
 
 ## Phase 4 — Toward the UDS package
 

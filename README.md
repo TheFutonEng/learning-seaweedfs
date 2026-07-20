@@ -47,6 +47,7 @@ just s3-presign-test          # presigned URL fetch (no credentials)
 just s3-metadata-test         # content-type + user metadata preserved
 just s3-mc-test               # MinIO mc client (SigV4) interoperates
 just mint-report              # broad MinIO Mint conformance report (runs suite if needed)
+just s3-tests-report          # granular Ceph s3-tests conformance (per-test pass/fail)
 ```
 
 For manual poking:
@@ -74,6 +75,11 @@ just logs filer         # tail logs (master|filer|volume|s3)
   Full run log persists to `mint-logs/last-run.log`. This is a *survey* (some
   edge failures are expected since Mint targets MinIO), kept separate from the
   pass/fail suite above.
+- `just s3-tests-report` — **granular** S3 conformance via Ceph s3-tests (boto3),
+  hundreds of per-test pass/fail results (deeper than Mint). Containerized
+  (`s3-tests/Dockerfile`); config in `s3-tests/s3tests.conf`; run log persists to
+  `s3-tests/logs/last-run.log`. Some failures are expected (the suite targets
+  Ceph RGW).
 
 The authoritative, annotated results live in `docs/01-test-plan.md` (status per
 test) and `docs/02-lessons.md` (findings).
