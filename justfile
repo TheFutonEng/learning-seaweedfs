@@ -15,7 +15,7 @@ cluster       := "seaweedfs-lab"
 namespace     := "seaweedfs"
 release       := "seaweedfs"
 chart_repo    := "https://seaweedfs.github.io/seaweedfs/helm"
-chart_version := "4.39.0"
+chart_version := "4.48.0"
 s3_port       := "8333"
 client_image  := "amazon/aws-cli:latest"
 results_file  := "test-results.tsv"
@@ -37,8 +37,15 @@ default:
 
 # === Environment lifecycle ===================================================
 
-# Create the k3d cluster (idempotent-ish: errors if it already exists).
+# Create the k3d cluster from scratch. If a cluster with this name already
+# exists it is torn down first (including its PVCs/data) so every run starts clean.
 cluster-up:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if k3d cluster get {{cluster}} >/dev/null 2>&1; then
+        echo ">> Cluster '{{cluster}}' already exists — tearing it down first"
+        k3d cluster delete {{cluster}}
+    fi
     k3d cluster create --config k3d/cluster.yaml
     kubectl cluster-info
 
@@ -674,6 +681,70 @@ s3-tests target="s3tests/functional/test_s3.py":
             --forked -q --tb=line -rA --no-header
     } 2>&1 | tee s3-tests/logs/last-run.log
 
+# Full Ceph s3-tests suite, run IN-CLUSTER in chunks with a fresh S3 gateway per
+# chunk. This is the method for comparable conformance numbers. Writes the
+# aggregate to ./s3-tests/logs/last-run.log (read it with `just s3-tests-report`).
+#   just s3-tests-chunked              # all of test_s3.py, chunks of 50
+#   just s3-tests-chunked 25           # smaller chunks
+# Why not `just s3-tests`:
+#  - The gateway retains memory after multipart work and never gives it back
+#    (P3-08), so one long run eventually OOM-kills it mid-suite and every test
+#    in flight errors. A fresh gateway per chunk keeps each chunk under the limit.
+#  - `kubectl port-forward` resets connections on multipart/copy traffic even
+#    when the gateway is healthy (2026-10-15: test_multipart_copy_small errored
+#    in 2 min via port-forward, passed in 2.5s in-cluster). Running the test pod
+#    inside the cluster removes the tunnel from the measurement.
+# Full s3-tests suite in-cluster, chunked, fresh gateway per chunk (comparable numbers).
+s3-tests-chunked chunk_size="50":
+    #!/usr/bin/env bash
+    set -uo pipefail
+    mkdir -p s3-tests/logs
+    tmp="$(mktemp -d)"; pod=s3tests-runner
+    trap 'kubectl -n {{namespace}} delete pod $pod --ignore-not-found --wait=false >/dev/null 2>&1; rm -rf "$tmp"' EXIT
+    echo ">> Building s3-tests image and importing it into k3d..."
+    docker build -q -t sw-s3-tests s3-tests/ >/dev/null
+    k3d image import sw-s3-tests -c {{cluster}} >/dev/null 2>&1
+    # Same config, but pointed at the in-cluster service instead of localhost.
+    sed 's/^host = .*/host = {{release}}-s3.{{namespace}}.svc.cluster.local/' \
+        s3-tests/s3tests.conf > "$tmp/s3tests.conf"
+    kubectl -n {{namespace}} create configmap s3tests-conf --from-file=s3tests.conf="$tmp/s3tests.conf" \
+        --dry-run=client -o yaml | kubectl apply -f - >/dev/null
+    docker run --rm -v "$tmp/s3tests.conf:/conf/s3tests.conf:ro" -e S3TEST_CONF=/conf/s3tests.conf \
+        sw-s3-tests s3tests/functional/test_s3.py --collect-only -q 2>/dev/null | grep '::' > "$tmp/ids"
+    total=$(wc -l < "$tmp/ids")
+    split -l {{chunk_size}} -d -a 3 "$tmp/ids" "$tmp/chunk."
+    n=$(ls "$tmp"/chunk.* | wc -l)
+    out=s3-tests/logs/last-run.log
+    {
+        echo "# generated: $(date -u +%FT%TZ)"
+        echo "# target: s3tests/functional/test_s3.py ($total tests, $n in-cluster chunks of {{chunk_size}}, fresh gateway per chunk, --forked)"
+        echo "# chart: $(helm -n {{namespace}} list -f '^{{release}}$' -o json | jq -r '.[0].chart')"
+    } > "$out"
+    i=0
+    for c in "$tmp"/chunk.*; do
+        i=$((i+1))
+        kubectl -n {{namespace}} rollout restart deploy/{{release}}-s3 >/dev/null
+        kubectl -n {{namespace}} rollout status deploy/{{release}}-s3 --timeout=180s >/dev/null
+        kubectl -n {{namespace}} delete pod $pod --ignore-not-found >/dev/null
+        args=$(jq -Rn '[inputs] + ["--forked","-q","--tb=line","-rA","--no-header"]' < "$c")
+        jq -n --arg ns {{namespace}} --arg name $pod --argjson args "$args" '{
+            apiVersion: "v1", kind: "Pod",
+            metadata: {name: $name, namespace: $ns},
+            spec: {restartPolicy: "Never",
+              containers: [{name: "s3tests", image: "sw-s3-tests", imagePullPolicy: "Never", args: $args,
+                env: [{name: "S3TEST_CONF", value: "/conf/s3tests.conf"}],
+                volumeMounts: [{name: "conf", mountPath: "/conf"}]}],
+              volumes: [{name: "conf", configMap: {name: "s3tests-conf"}}]}}' \
+            | kubectl apply -f - >/dev/null
+        until kubectl -n {{namespace}} get pod $pod -o jsonpath='{.status.phase}' 2>/dev/null | grep -qE 'Succeeded|Failed'; do sleep 3; done
+        oom=$(kubectl -n {{namespace}} get pod -l app.kubernetes.io/component=s3 \
+            -o jsonpath='{.items[0].status.containerStatuses[0].lastState.terminated.reason}')
+        echo "## chunk $i/$n gateway_last_termination=${oom:-none}" >> "$out"
+        kubectl -n {{namespace}} logs $pod >> "$out" 2>&1
+        printf ">> chunk %2d/%d: %s%s\n" "$i" "$n" "$(tail -1 "$out")" "${oom:+  (gateway $oom!)}"
+    done
+    echo ">> Done. Summary: just s3-tests-report   (log: $out)"
+
 # Show the saved Ceph s3-tests report; if none exists, run s3-tests first.
 s3-tests-report:
     #!/usr/bin/env bash
@@ -693,9 +764,9 @@ s3-tests-report:
     echo "=================================================================="
     # Count outcomes directly from the -rA lines (robust whether this was a
     # single pytest run or a concatenated curated/chunked aggregate).
-    pcount=$(grep -c '^PASSED ' "$RUN" 2>/dev/null || echo 0)
-    fcount=$(grep -c '^FAILED ' "$RUN" 2>/dev/null || echo 0)
-    ecount=$(grep -c '^ERROR ' "$RUN" 2>/dev/null || echo 0)
+    pcount=$(grep -c '^PASSED ' "$RUN" 2>/dev/null || true)
+    fcount=$(grep -c '^FAILED ' "$RUN" 2>/dev/null || true)
+    ecount=$(grep -c '^ERROR ' "$RUN" 2>/dev/null || true)
     total=$((pcount + fcount + ecount))
     echo " Summary (of $total tests with a clean outcome):"
     printf "   PASSED %-5s  FAILED %-5s  ERROR %-5s\n" "$pcount" "$fcount" "$ecount"
@@ -705,12 +776,12 @@ s3-tests-report:
       | grep -oE '^(post_object|lifecycle|encryption|sse|bucket_policy|bucket_logging|object_lock|cors|bucket_acl|object_acl|versioning|tagging|website|user_policy|iam|sts|multipart|copy|bucket|object)' \
       | sort | uniq -c | sort -rn | head -15 | sed 's/^/  /'
     echo "----------------------------------------------------------------"
-    echo " Errored tests by area (mostly SeaweedFS large-object instability, P3-08):"
+    echo " Errored tests by area (connection resets/timeouts — check gateway OOM, P3-08):"
     grep '^ERROR ' "$RUN" | sed -E 's#.*::test_##; s/ - .*//' \
       | grep -oE '^(copy|multipart|upload|encryption|sse|object|bucket)' \
       | sort | uniq -c | sort -rn | head -8 | sed 's/^/  /'
     echo "----------------------------------------------------------------"
-    echo "  Full run log: ./s3-tests/logs/last-run.log   |   Re-run: just s3-tests"
+    echo "  Full run log: ./s3-tests/logs/last-run.log   |   Re-run: just s3-tests-chunked"
     echo "=================================================================="
 
 # Show cluster leader + volume topology from the master API (proves P1-07).

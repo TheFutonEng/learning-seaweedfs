@@ -1,13 +1,29 @@
 # Ceph s3-tests — curated full-suite results (annotated)
 
-Run: 2026-07-17, all 838 tests of `s3tests/functional/test_s3.py`, in curated
-chunks of 50 (fresh gateway + port-forward per chunk, `--forked`). See
-`docs/02-lessons.md`.
+Run: 2026-10-15, SeaweedFS **4.48** (chart 4.48.0), all 838 tests of
+`s3tests/functional/test_s3.py` (s3-tests rev `5522d1c`) via
+`just s3-tests-chunked`: 17 chunks of 50, test pod **in-cluster** (no
+port-forward), fresh S3 gateway per chunk, `--forked`. See `docs/02-lessons.md`.
 
 ## Totals
 ```
-PASSED 345   FAILED 353   ERROR 48
+PASSED 376   FAILED 368   ERROR 0   SKIPPED 94
 ```
+
+## Changes since the 2026-07-17 run (4.39, via port-forward: 345 / 353 / 48)
+
+- **All 48 errors resolved into real outcomes — 34 pass, 14 fail.** They were
+  a harness artifact, not conformance gaps: `kubectl port-forward` resets
+  connections on multipart/copy traffic, and the gateway's retained memory
+  (P3-08) OOM-kills it if a run accumulates enough multipart work. Running
+  in-cluster with a fresh gateway per chunk removes both. (13 of the 14 are new
+  entries below; `test_encryption_sse_c_multipart_bad_download` was already
+  listed as a failure.)
+- **3 newly passing (4.39 → 4.48):** `test_object_checksum_sha256`,
+  `test_object_checksum_crc64nvme`, `test_multipart_reupload_checksum_and_etag`.
+- **5 newly failing, reclassified vendor-specific:** the `*_get_part` tests — see
+  the vendor section.
+- The 4.39 errored list is kept at the end for reference.
 
 ## How to read the failures
 
@@ -16,12 +32,15 @@ vendor-specific and safe to ignore. But the vast majority are genuine gaps in
 **standard AWS S3 features** that SeaweedFS does not implement — real signal,
 not noise.
 
-- **Vendor-specific (ignore): 13**
-- **Genuine standard-S3 gaps: 340**
+- **Vendor-specific (ignore): 18**
+- **Genuine standard-S3 gaps: 350**
 
-## Vendor-specific failures — Ceph/RGW only, NOT SeaweedFS gaps (13)
+## Vendor-specific failures — Ceph/RGW only, NOT SeaweedFS gaps (18)
 
-RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
+RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug, and
+the `*_get_part` tests: for an out-of-range `PartNumber` they expect RGW's
+`400 InvalidPart`; SeaweedFS 4.48 returns `416 InvalidPartNumber`, which is what
+AWS S3 returns (verified 2026-10-15).
 ```
   test_account_usage
   test_bucket_policy_different_tenant
@@ -32,45 +51,50 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_cors_presigned_put_object_tenant_v2
   test_cors_presigned_put_object_tenant_with_acl
   test_head_bucket_usage
+  test_multipart_get_part
+  test_multipart_single_get_part
+  test_multipart_sse_c_get_part
+  test_non_multipart_get_part
+  test_non_multipart_sse_c_get_part
   test_object_raw_get_x_amz_expires_not_expired_tenant
   test_post_object_upload_size_rgw_chunk_size_bug
   test_put_bucket_logging_account_s
   test_put_bucket_logging_tenant_s
 ```
 
-## Genuine gaps in standard S3 features (340)
+## Genuine gaps in standard S3 features (350)
 
-### SSE / server-side encryption (SSE-C, SSE-KMS, bucket default encryption) (64)
+### SSE / server-side encryption (SSE-C, SSE-KMS, bucket default encryption) (75)
 ```
   test_bucket_policy_put_obj_kms_noenc
   test_bucket_policy_put_obj_s3_incorrect_algo_sse_s3
-  test_copy_enc[sse-c-sse-kms-STANDARD-STANDARD-1]
   test_copy_enc[sse-c-sse-kms-STANDARD-STANDARD-1024]
   test_copy_enc[sse-c-sse-kms-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-c-sse-kms-STANDARD-STANDARD-1]
   test_copy_enc[sse-c-sse-kms-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-kms-sse-c-STANDARD-STANDARD-1]
   test_copy_enc[sse-kms-sse-c-STANDARD-STANDARD-1024]
   test_copy_enc[sse-kms-sse-c-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-kms-sse-c-STANDARD-STANDARD-1]
   test_copy_enc[sse-kms-sse-c-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-kms-sse-kms-STANDARD-STANDARD-1]
   test_copy_enc[sse-kms-sse-kms-STANDARD-STANDARD-1024]
   test_copy_enc[sse-kms-sse-kms-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-kms-sse-kms-STANDARD-STANDARD-1]
   test_copy_enc[sse-kms-sse-kms-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-kms-sse-s3-STANDARD-STANDARD-1]
   test_copy_enc[sse-kms-sse-s3-STANDARD-STANDARD-1024]
   test_copy_enc[sse-kms-sse-s3-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-kms-sse-s3-STANDARD-STANDARD-1]
   test_copy_enc[sse-kms-sse-s3-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-kms-unencrypted-STANDARD-STANDARD-1]
   test_copy_enc[sse-kms-unencrypted-STANDARD-STANDARD-1024]
   test_copy_enc[sse-kms-unencrypted-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-kms-unencrypted-STANDARD-STANDARD-1]
   test_copy_enc[sse-kms-unencrypted-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-s3-sse-kms-STANDARD-STANDARD-1]
   test_copy_enc[sse-s3-sse-kms-STANDARD-STANDARD-1024]
   test_copy_enc[sse-s3-sse-kms-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-s3-sse-kms-STANDARD-STANDARD-1]
   test_copy_enc[sse-s3-sse-kms-STANDARD-STANDARD-8388608]
-  test_copy_enc[unencrypted-sse-kms-STANDARD-STANDARD-1]
   test_copy_enc[unencrypted-sse-kms-STANDARD-STANDARD-1024]
   test_copy_enc[unencrypted-sse-kms-STANDARD-STANDARD-1048576]
+  test_copy_enc[unencrypted-sse-kms-STANDARD-STANDARD-1]
   test_copy_enc[unencrypted-sse-kms-STANDARD-STANDARD-8388608]
   test_copy_part_enc[sse-c-sse-kms-STANDARD-STANDARD-8388608]
   test_copy_part_enc[sse-kms-sse-c-STANDARD-STANDARD-8388608]
@@ -84,6 +108,7 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_encryption_sse_c_multipart_bad_download
   test_encryption_sse_c_multipart_invalid_chunks_1
   test_encryption_sse_c_other_key
+  test_encryption_sse_c_post_object_authenticated_request
   test_get_sse_c_encrypted_object_attributes
   test_put_obj_enc_conflict_bad_enc_kms
   test_put_obj_enc_conflict_c_kms
@@ -93,8 +118,18 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_sse_kms_default_upload_1kb
   test_sse_kms_default_upload_1mb
   test_sse_kms_default_upload_8mb
+  test_sse_kms_method_head
+  test_sse_kms_multipart_invalid_chunks_1
+  test_sse_kms_multipart_invalid_chunks_2
+  test_sse_kms_multipart_upload
+  test_sse_kms_not_declared
+  test_sse_kms_post_object_authenticated_request
+  test_sse_kms_present
   test_sse_kms_read_declare
   test_sse_kms_transfer_13b
+  test_sse_kms_transfer_1MB
+  test_sse_kms_transfer_1b
+  test_sse_kms_transfer_1kb
   test_sse_s3_default_method_head
   test_sse_s3_default_multipart_upload
   test_sse_s3_default_post_object_authenticated_request
@@ -151,35 +186,35 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_versioned_object_acl_no_version_specified
 ```
 
-### CopyObject edge cases (conditions, metadata directives, ACLs on copy) (36)
+### CopyObject edge cases (conditions, metadata directives, ACLs on copy) (37)
 ```
-  test_copy_enc[sse-c-sse-c-STANDARD-STANDARD-1]
   test_copy_enc[sse-c-sse-c-STANDARD-STANDARD-1024]
   test_copy_enc[sse-c-sse-c-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-c-sse-c-STANDARD-STANDARD-1]
   test_copy_enc[sse-c-sse-c-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-c-sse-s3-STANDARD-STANDARD-1]
   test_copy_enc[sse-c-sse-s3-STANDARD-STANDARD-1024]
   test_copy_enc[sse-c-sse-s3-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-c-sse-s3-STANDARD-STANDARD-1]
   test_copy_enc[sse-c-sse-s3-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-s3-sse-c-STANDARD-STANDARD-1]
   test_copy_enc[sse-s3-sse-c-STANDARD-STANDARD-1024]
   test_copy_enc[sse-s3-sse-c-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-s3-sse-c-STANDARD-STANDARD-1]
   test_copy_enc[sse-s3-sse-c-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-s3-sse-s3-STANDARD-STANDARD-1]
   test_copy_enc[sse-s3-sse-s3-STANDARD-STANDARD-1024]
   test_copy_enc[sse-s3-sse-s3-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-s3-sse-s3-STANDARD-STANDARD-1]
   test_copy_enc[sse-s3-sse-s3-STANDARD-STANDARD-8388608]
-  test_copy_enc[sse-s3-unencrypted-STANDARD-STANDARD-1]
   test_copy_enc[sse-s3-unencrypted-STANDARD-STANDARD-1024]
   test_copy_enc[sse-s3-unencrypted-STANDARD-STANDARD-1048576]
+  test_copy_enc[sse-s3-unencrypted-STANDARD-STANDARD-1]
   test_copy_enc[sse-s3-unencrypted-STANDARD-STANDARD-8388608]
-  test_copy_enc[unencrypted-sse-c-STANDARD-STANDARD-1]
   test_copy_enc[unencrypted-sse-c-STANDARD-STANDARD-1024]
   test_copy_enc[unencrypted-sse-c-STANDARD-STANDARD-1048576]
+  test_copy_enc[unencrypted-sse-c-STANDARD-STANDARD-1]
   test_copy_enc[unencrypted-sse-c-STANDARD-STANDARD-8388608]
-  test_copy_enc[unencrypted-sse-s3-STANDARD-STANDARD-1]
   test_copy_enc[unencrypted-sse-s3-STANDARD-STANDARD-1024]
   test_copy_enc[unencrypted-sse-s3-STANDARD-STANDARD-1048576]
+  test_copy_enc[unencrypted-sse-s3-STANDARD-STANDARD-1]
   test_copy_enc[unencrypted-sse-s3-STANDARD-STANDARD-8388608]
   test_copy_part_enc[sse-c-sse-c-STANDARD-STANDARD-8388608]
   test_copy_part_enc[sse-c-sse-s3-STANDARD-STANDARD-8388608]
@@ -189,6 +224,7 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_copy_part_enc[sse-s3-unencrypted-STANDARD-STANDARD-8388608]
   test_copy_part_enc[unencrypted-sse-c-STANDARD-STANDARD-8388608]
   test_copy_part_enc[unencrypted-sse-s3-STANDARD-STANDARD-8388608]
+  test_object_copy_not_owned_bucket
 ```
 
 ### Bucket access logging (35)
@@ -360,7 +396,7 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_get_multipart_checksum_object_attributes
   test_list_multipart_upload_owner
   test_multipart_checksum_sha256
-  test_multipart_reupload_checksum_and_etag
+  test_multipart_copy_improper_range
   test_multipart_use_cksum_helper_crc32
   test_multipart_use_cksum_helper_crc32c
   test_multipart_use_cksum_helper_crc64nvme
@@ -398,7 +434,7 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_block_public_restrict_public_buckets
 ```
 
-### Other standard S3 behaviors (GetBucketLocation, ownership recreate, etc.) (34)
+### Other standard S3 behaviors (GetBucketLocation, ownership recreate, etc.) (32)
 ```
   test_bucket_create_exists
   test_bucket_create_naming_dns_dash_dot
@@ -416,8 +452,6 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_list_buckets_anonymous
   test_list_buckets_paginated
   test_object_anon_put_write_access
-  test_object_checksum_crc64nvme
-  test_object_checksum_sha256
   test_object_content_encoding_aws_chunked
   test_object_delete_key_bucket_gone
   test_object_raw_get_bucket_gone
@@ -431,12 +465,12 @@ RGW usage stats, Ceph `tenant$user` multi-tenancy syntax, an explicit RGW bug.
   test_object_set_get_unicode_metadata
   test_object_write_to_nonexist_bucket
   test_put_get_delete_public_block
-  test_put_object_ifmatch_nonexisted_failed
   test_put_obj_enc_conflict_c_s3
+  test_put_object_ifmatch_nonexisted_failed
   test_put_public_block
 ```
 
-## Errored (48) — SeaweedFS large-object instability (P3-08), not a conformance gap
+## Historical: errored in the 2026-07-17 run (48) — now 34 pass / 14 fail (see top)
 ```
   test_abort_multipart_upload
   test_encryption_sse_c_deny_algo_with_bucket_policy

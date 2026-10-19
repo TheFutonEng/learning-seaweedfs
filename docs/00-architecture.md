@@ -77,10 +77,10 @@ deleted/recreated to change its storage.
 
 ## Chart / version pinning
 
-Requires **Helm ≥ 3.17** (chart 4.39.0 uses the `fromToml` template function).
+Requires **Helm ≥ 3.17** (chart 4.48.0 uses the `fromToml` template function).
 
 - Helm repo: `https://seaweedfs.github.io/seaweedfs/helm`
-- Chart: `seaweedfs/seaweedfs`, pinned to `4.39.0` (appVersion 4.39) in the justfile.
+- Chart: `seaweedfs/seaweedfs`, pinned to `4.48.0` (appVersion 4.48) in the justfile.
 
 ## References
 

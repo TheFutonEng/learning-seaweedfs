@@ -8,7 +8,12 @@ FROM python:3.11-slim
 
 # Pin the s3-tests revision for reproducibility. Override with:
 #   docker build --build-arg S3TESTS_REF=<sha> ...
-ARG S3TESTS_REF=master
+# 5522d1c (2026-05-27) is the revision both the SeaweedFS and Garage labs were
+# benchmarked against, so results stay comparable across candidates.
+# NOTE: as of 2026-10-12 ceph/s3-tests is retired — the suite moved into the
+# ceph/ceph repo and this repo is no longer maintained. Moving to a newer
+# revision means sourcing it from ceph/ceph (and re-baselining every candidate).
+ARG S3TESTS_REF=5522d1c351f75bc00ae0f64f742f3f095f5939d9
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git \

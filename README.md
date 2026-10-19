@@ -13,7 +13,7 @@ complexity.
 Already installed and used by the automation:
 
 - [`k3d`](https://k3d.io) — local Kubernetes via Docker
-- `kubectl`, [`helm`](https://helm.sh) — **Helm ≥ 3.17** required (chart 4.39.0
+- `kubectl`, [`helm`](https://helm.sh) — **Helm ≥ 3.17** required (chart 4.48.0
   uses the `fromToml` template function added in 3.17)
 - [`just`](https://github.com/casey/just) — task runner (see `justfile`)
 - `docker` — also used to run a throwaway `aws-cli` container for S3 tests
