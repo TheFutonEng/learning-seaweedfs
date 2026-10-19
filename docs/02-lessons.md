@@ -15,6 +15,32 @@ short; link to test-plan IDs where relevant.
 
 ---
 
+### 2026-10-15 — 4.48: the 48 s3-tests errors were harness artifacts; multipart memory retention persists
+- Context: Bumped chart 4.39.0 → 4.48.0, re-ran the full s3-tests suite and the
+  P3-08 memory drill.
+- Finding (harness): `kubectl port-forward` resets connections on multipart/copy
+  traffic even when the gateway is healthy — `test_multipart_copy_small` errored
+  after 2 min through the tunnel with the gateway at 157Mi, and passed in 2.5s
+  from a pod inside the cluster. Added `just s3-tests-chunked` (in-cluster test
+  pod, fresh gateway per chunk). Result: **376 pass / 368 fail / 0 error**; the
+  48 old errors became 34 pass / 14 fail.
+- Finding (conformance): vs 4.39, 3 checksum tests now pass; 5 `*_get_part`
+  tests now fail because SeaweedFS returns AWS's `416 InvalidPartNumber` where
+  the test expects RGW's `400 InvalidPart` — vendor-specific, not a regression.
+  Advanced-feature gaps are unchanged.
+- Finding (memory, P3-08): single-part 16 MB PUT+copy is now bounded
+  (~220–240Mi plateau, survives a 256Mi limit). **Multipart is not**: one pass of
+  the 48 multipart/copy/SSE tests leaves a fresh gateway at ~416Mi *idle*; the
+  next pass hits 512Mi and is `OOMKilled` (exit 137). At 256Mi a single pass
+  OOMs. Checked with cgroup `memory.stat`: it is anon (process) memory, not page
+  cache.
+- Impact: the memory blocker stands, narrowed to multipart workloads — which is
+  what Velero/Loki/GitLab do for large objects. Size the S3 memory limit to the
+  multipart working set and alert on gateway restarts. Any lab number taken
+  through `kubectl port-forward` on multipart/copy traffic is suspect — that
+  includes the Garage s3-tests run.
+- Refs: P3-07, P3-08, `just s3-tests-chunked`, `s3-tests/curated-results.md`
+
 ### 2026-07-17 — Curated s3-tests full run: SeaweedFS is strong on core S3, weak on advanced features
 - Context: Ran all 838 `test_s3.py` tests in curated chunks of 50 (fresh gateway
   + fresh port-forward per chunk, `--forked`, memory-limited gateway) to avoid the
