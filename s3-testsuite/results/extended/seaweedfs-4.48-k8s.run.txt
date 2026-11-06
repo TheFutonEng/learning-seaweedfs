@@ -1,0 +1,1 @@
+suite=extended duration=51s gateway_mem_peak_MiB=389 gateway_mem_end_MiB=234 gateway_restarts=0 last_termination=none

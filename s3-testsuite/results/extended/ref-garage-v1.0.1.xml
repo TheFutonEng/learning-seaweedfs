@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="7" failures="8" skipped="0" tests="63" time="30.169" timestamp="2026-02-19T12:14:02.565459+01:00" hostname="ryzen3d"><testcase classname="tests_extended.test_bulk_throughput.TestBulkThroughput" name="test_100_parallel_puts_all_succeed" time="0.302" /><testcase classname="tests_extended.test_bulk_throughput.TestBulkThroughput" name="test_100_parallel_gets_all_succeed" time="0.351" /><testcase classname="tests_extended.test_bulk_throughput.TestBulkThroughput" name="test_50_parallel_copies" time="0.315" /><testcase classname="tests_extended.test_bulk_throughput.TestBulkThroughput" name="test_10_concurrent_multipart_uploads" time="0.202" /><testcase classname="tests_extended.test_bulk_throughput.TestBulkThroughput" name="test_parallel_put_and_list" time="0.046" /><testcase classname="tests_extended.test_concurrent_lock.TestConcurrentLock" name="test_concurrent_retention_set_on_same_object" time="0.026"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention">tests_extended/test_concurrent_lock.py:32: in test_concurrent_retention_set_on_same_object
+    f.result()
+/home/linuxbrew/.linuxbrew/opt/python@3.14/lib/python3.14/concurrent/futures/_base.py:443: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+/home/linuxbrew/.linuxbrew/opt/python@3.14/lib/python3.14/concurrent/futures/_base.py:395: in __get_result
+    raise self._exception
+/home/linuxbrew/.linuxbrew/opt/python@3.14/lib/python3.14/concurrent/futures/thread.py:86: in run
+    result = ctx.run(self.task)
+             ^^^^^^^^^^^^^^^^^^
+/home/linuxbrew/.linuxbrew/opt/python@3.14/lib/python3.14/concurrent/futures/thread.py:73: in run
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+tests_extended/test_concurrent_lock.py:23: in set_retention
+    s3_client.put_object_retention(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention</failure></testcase><testcase classname="tests_extended.test_concurrent_lock.TestConcurrentLock" name="test_concurrent_delete_of_retained_object" time="0.021"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention">tests_extended/test_concurrent_lock.py:48: in test_concurrent_delete_of_retained_object
+    s3_client.put_object_retention(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention</failure></testcase><testcase classname="tests_extended.test_concurrent_lock.TestConcurrentLock" name="test_concurrent_legal_hold_toggle" time="0.029"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLegalHold operation: Unimplemented action: PutObjectLegalHold">tests_extended/test_concurrent_lock.py:92: in test_concurrent_legal_hold_toggle
+    f.result()
+/home/linuxbrew/.linuxbrew/opt/python@3.14/lib/python3.14/concurrent/futures/_base.py:443: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+/home/linuxbrew/.linuxbrew/opt/python@3.14/lib/python3.14/concurrent/futures/_base.py:395: in __get_result
+    raise self._exception
+/home/linuxbrew/.linuxbrew/opt/python@3.14/lib/python3.14/concurrent/futures/thread.py:86: in run
+    result = ctx.run(self.task)
+             ^^^^^^^^^^^^^^^^^^
+/home/linuxbrew/.linuxbrew/opt/python@3.14/lib/python3.14/concurrent/futures/thread.py:73: in run
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+tests_extended/test_concurrent_lock.py:81: in set_hold
+    s3_client.put_object_legal_hold(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLegalHold operation: Unimplemented action: PutObjectLegalHold</failure></testcase><testcase classname="tests_extended.test_concurrent_lock.TestConcurrentLock" name="test_lock_specific_version_while_creating_new_versions" time="0.022"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention">tests_extended/test_concurrent_lock.py:106: in test_lock_specific_version_while_creating_new_versions
+    s3_client.put_object_retention(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention</failure></testcase><testcase classname="tests_extended.test_concurrent_lock.TestConcurrentLock" name="test_governance_bypass_under_contention" time="0.021"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention">tests_extended/test_concurrent_lock.py:135: in test_governance_bypass_under_contention
+    s3_client.put_object_retention(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention</failure></testcase><testcase classname="tests_extended.test_concurrent_rw.TestConcurrentReadWrite" name="test_read_during_overwrite_returns_complete_version" time="0.059" /><testcase classname="tests_extended.test_concurrent_rw.TestConcurrentReadWrite" name="test_concurrent_put_delete_same_key" time="0.028" /><testcase classname="tests_extended.test_concurrent_rw.TestConcurrentReadWrite" name="test_concurrent_writes_to_different_keys_no_interference" time="0.089" /><testcase classname="tests_extended.test_concurrent_rw.TestConcurrentReadWrite" name="test_concurrent_deletes_same_key" time="0.024" /><testcase classname="tests_extended.test_concurrent_rw.TestConcurrentReadWrite" name="test_concurrent_put_during_bulk_delete" time="0.083" /><testcase classname="tests_extended.test_concurrent_rw.TestConcurrentReadWrite" name="test_concurrent_reads_return_same_content" time="0.041" /><testcase classname="tests_extended.test_concurrent_rw.TestConcurrentReadWrite" name="test_concurrent_head_returns_consistent_metadata" time="0.048" /><testcase classname="tests_extended.test_concurrent_versioning.TestConcurrentVersioning" name="test_concurrent_puts_create_distinct_versions" time="0.010"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests_extended.test_concurrent_versioning.TestConcurrentVersioning" name="test_version_ordering_matches_write_order" time="0.009"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests_extended.test_concurrent_versioning.TestConcurrentVersioning" name="test_all_versions_readable_after_concurrent_writes" time="0.009"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests_extended.test_concurrent_versioning.TestConcurrentVersioning" name="test_delete_one_version_leaves_others_intact" time="0.008"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests_extended.test_concurrent_versioning.TestConcurrentVersioning" name="test_concurrent_version_deletes" time="0.008"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests_extended.test_concurrent_versioning.TestConcurrentVersioning" name="test_concurrent_delete_markers" time="0.008"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests_extended.test_concurrent_versioning.TestConcurrentVersioning" name="test_write_after_delete_marker" time="0.008"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests_extended.test_conditional_ops.TestConditionalOperations" name="test_get_with_matching_etag_succeeds" time="0.022" /><testcase classname="tests_extended.test_conditional_ops.TestConditionalOperations" name="test_get_with_non_matching_etag_fails" time="0.022"><failure message="Failed: IfMatch with wrong ETag should return 412">tests_extended/test_conditional_ops.py:30: in test_get_with_non_matching_etag_fails
+    pytest.fail("IfMatch with wrong ETag should return 412")
+E   Failed: IfMatch with wrong ETag should return 412</failure></testcase><testcase classname="tests_extended.test_conditional_ops.TestConditionalOperations" name="test_copy_if_match" time="0.027" /><testcase classname="tests_extended.test_conditional_ops.TestConditionalOperations" name="test_get_if_none_match_returns_304" time="0.020" /><testcase classname="tests_extended.test_conditional_ops.TestConditionalOperations" name="test_get_if_none_match_with_old_etag_succeeds" time="0.023" /><testcase classname="tests_extended.test_conditional_ops.TestConditionalOperations" name="test_get_if_modified_since_future_returns_304" time="0.019" /><testcase classname="tests_extended.test_conditional_ops.TestConditionalOperations" name="test_get_if_unmodified_since_past_returns_412" time="0.021"><failure message="Failed: IfUnmodifiedSince with past date should return 412">tests_extended/test_conditional_ops.py:110: in test_get_if_unmodified_since_past_returns_412
+    pytest.fail("IfUnmodifiedSince with past date should return 412")
+E   Failed: IfUnmodifiedSince with past date should return 412</failure></testcase><testcase classname="tests_extended.test_large_listing.TestLargeListing" name="test_paginate_10k_objects_returns_all" time="12.778" /><testcase classname="tests_extended.test_large_listing.TestLargeListing" name="test_paginate_10k_objects_in_order" time="0.445" /><testcase classname="tests_extended.test_large_listing.TestLargeListing" name="test_max_keys_boundary_at_1000" time="0.044" /><testcase classname="tests_extended.test_large_listing.TestLargeListing" name="test_prefix_filter_on_large_bucket" time="0.008" /><testcase classname="tests_extended.test_large_listing.TestLargeListing" name="test_start_after_on_large_bucket" time="0.020" /><testcase classname="tests_extended.test_large_listing.TestLargeListing" name="test_large_list_key_count_accuracy" time="13.524" /><testcase classname="tests_extended.test_listing_consistency.TestListingConsistency" name="test_list_sees_all_objects_after_concurrent_puts" time="0.069" /><testcase classname="tests_extended.test_listing_consistency.TestListingConsistency" name="test_list_after_rapid_delete_shows_no_phantoms" time="0.045" /><testcase classname="tests_extended.test_listing_consistency.TestListingConsistency" name="test_paginated_list_during_inserts" time="0.085" /><testcase classname="tests_extended.test_listing_consistency.TestListingConsistency" name="test_list_always_lexicographic_after_concurrent_puts" time="0.060" /><testcase classname="tests_extended.test_listing_consistency.TestListingConsistency" name="test_prefix_filter_correctness_after_concurrent_writes" time="0.060" /><testcase classname="tests_extended.test_listing_consistency.TestListingConsistency" name="test_delimiter_correctness_after_concurrent_writes" time="0.023" /><testcase classname="tests_extended.test_multipart_edge_cases.TestMultipartEdgeCases" name="test_complete_with_subset_of_uploaded_parts" time="0.128" /><testcase classname="tests_extended.test_multipart_edge_cases.TestMultipartEdgeCases" name="test_overwrite_part_number" time="0.064" /><testcase classname="tests_extended.test_multipart_edge_cases.TestMultipartEdgeCases" name="test_complete_with_parts_in_ascending_order" time="0.086" /><testcase classname="tests_extended.test_multipart_edge_cases.TestMultipartEdgeCases" name="test_concurrent_part_uploads" time="0.081" /><testcase classname="tests_extended.test_multipart_edge_cases.TestMultipartEdgeCases" name="test_multiple_concurrent_multipart_uploads_same_key" time="0.050" /><testcase classname="tests_extended.test_multipart_edge_cases.TestMultipartEdgeCases" name="test_abandoned_upload_not_visible_as_object" time="0.040" /><testcase classname="tests_extended.test_multipart_edge_cases.TestMultipartEdgeCases" name="test_abort_idempotent" time="0.017"><failure message="botocore.errorfactory.NoSuchUpload: An error occurred (NoSuchUpload) when calling the AbortMultipartUpload operation: Upload not found">tests_extended/test_multipart_edge_cases.py:168: in test_abort_idempotent
+    s3_client.abort_multipart_upload(Bucket=bucket, Key=key, UploadId=uid)
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.NoSuchUpload: An error occurred (NoSuchUpload) when calling the AbortMultipartUpload operation: Upload not found</failure></testcase><testcase classname="tests_extended.test_multipart_edge_cases.TestMultipartEdgeCases" name="test_complete_with_invalid_upload_id" time="0.014" /><testcase classname="tests_extended.test_namespace_isolation.TestBucketIsolation" name="test_write_to_bucket_a_not_visible_in_bucket_b" time="0.030" /><testcase classname="tests_extended.test_namespace_isolation.TestBucketIsolation" name="test_same_key_different_content_in_two_buckets" time="0.033" /><testcase classname="tests_extended.test_namespace_isolation.TestBucketIsolation" name="test_delete_in_bucket_a_does_not_affect_bucket_b" time="0.032" /><testcase classname="tests_extended.test_namespace_isolation.TestKeyIsolation" name="test_prefix_substring_keys_are_distinct" time="0.019" /><testcase classname="tests_extended.test_namespace_isolation.TestKeyIsolation" name="test_keys_differing_only_by_trailing_slash" time="0.021" /><testcase classname="tests_extended.test_namespace_isolation.TestKeyIsolation" name="test_keys_with_special_chars_are_distinct" time="0.021" /><testcase classname="tests_extended.test_overwrite_atomicity.TestOverwriteAtomicity" name="test_overwrite_never_returns_partial_data" time="0.029" /><testcase classname="tests_extended.test_overwrite_atomicity.TestOverwriteAtomicity" name="test_overwrite_content_length_matches_body" time="0.024" /><testcase classname="tests_extended.test_overwrite_atomicity.TestOverwriteAtomicity" name="test_overwrite_etag_matches_body" time="0.019" /><testcase classname="tests_extended.test_overwrite_atomicity.TestOverwriteAtomicity" name="test_overwrite_larger_with_smaller" time="0.023" /><testcase classname="tests_extended.test_overwrite_atomicity.TestOverwriteAtomicity" name="test_overwrite_smaller_with_larger" time="0.024" /><testcase classname="tests_extended.test_overwrite_atomicity.TestOverwriteAtomicity" name="test_rapid_size_alternation" time="0.049" /></testsuite></testsuites>

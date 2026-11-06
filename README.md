@@ -47,7 +47,9 @@ just s3-presign-test          # presigned URL fetch (no credentials)
 just s3-metadata-test         # content-type + user metadata preserved
 just s3-mc-test               # MinIO mc client (SigV4) interoperates
 just mint-report              # broad MinIO Mint conformance report (runs suite if needed)
+just s3-tests-chunked         # full Ceph s3-tests, in-cluster, fresh gateway per chunk
 just s3-tests-report          # granular Ceph s3-tests conformance (per-test pass/fail)
+just s3-testsuite             # third-party suite (standard + extended), in-cluster
 ```
 
 For manual poking:
@@ -79,7 +81,15 @@ just logs filer         # tail logs (master|filer|volume|s3)
   hundreds of per-test pass/fail results (deeper than Mint). Containerized
   (`s3-tests/Dockerfile`); config in `s3-tests/s3tests.conf`; run log persists to
   `s3-tests/logs/last-run.log`. Some failures are expected (the suite targets
-  Ceph RGW).
+  Ceph RGW). Run the full suite with `just s3-tests-chunked` — it runs the test
+  pod inside the cluster, because `kubectl port-forward` resets multipart/copy
+  connections and inflates errors.
+- `just s3-testsuite` — a second-opinion suite
+  ([michalszynkiewicz/s3-testsuite](https://github.com/michalszynkiewicz/s3-testsuite)):
+  207 standard tests ranked P0–P3 plus 63 concurrency/consistency/throughput
+  tests, run in-cluster while sampling gateway memory. Results, with the suite
+  authors' published AWS / MinIO / SeaweedFS-4.13 runs as reference columns, go
+  to `s3-testsuite/results/`; the write-up is `s3-testsuite/RESULTS.md`.
 
 The authoritative, annotated results live in `docs/01-test-plan.md` (status per
 test) and `docs/02-lessons.md` (findings).
@@ -93,6 +103,8 @@ learning-seaweedfs/
 ├── k3d/
 │   ├── cluster.yaml              # k3d cluster definition
 │   └── seaweedfs-values.yaml     # minimal Helm values (S3 enabled)
+├── s3-tests/                     # containerized Ceph s3-tests harness
+├── s3-testsuite/                 # third-party suite harness + RESULTS.md + results/
 └── docs/
     ├── 00-architecture.md        # component model & how writes flow
     ├── 01-test-plan.md           # phased test plan (the checklist we work through)

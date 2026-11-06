@@ -15,6 +15,131 @@ short; link to test-plan IDs where relevant.
 
 ---
 
+### 2026-11-05 — Hands-on: the `weed admin` console handles tenants and key rotation; quotas enforce after ~1 min
+- Context: Guided exercise 3. Enabled `admin.enabled`, `worker.enabled` and
+  `jwtSigning.filerWrite` (password `admin.secret.adminPassword`), then drove
+  tenant tasks from the UI on port 23646.
+- Finding: a user created in the UI with `Read:test-bucket` is enforced exactly
+  by S3. `ListBuckets` shows only that bucket, PUT is `AccessDenied`, and other
+  buckets are `AccessDenied`. Console users land in the runtime IAM
+  (`s3.configure`, `isStatic: false`).
+- Finding: **key rotation works** as add-then-delete. A second key is created
+  alongside the first (both valid, an overlap window), and deleting the old key
+  revokes it **immediately** (`InvalidAccessKeyId`).
+- Finding: **quotas are enforced automatically on 4.48, after a lag** (corrects
+  the 4.39 "sweep only" finding). 12 MiB uploaded into a 10 MiB-quota bucket
+  succeeded. About a minute later the S3 gateway logged `bucket test-bucket
+  quota enforcement: readOnly=true` and set `readOnly: true` for the bucket in
+  `filer.conf`; the console then labelled it read-only. The gateway runs this
+  every minute (`bucket_size_metrics.go`, one gateway via the `s3.leader` lock),
+  flips the bucket back when under quota, and ignores un-vacuumed garbage.
+  Overshoot is possible, and the console has no enforce button.
+- Finding: an admin write to the read-only bucket returns **`500 InternalError`**
+  (aws-cli tried 3 times). The gateway logs `assign volume: read only:
+  /buckets/test-bucket/ (e.g. bucket over quota)`. This is the same as 4.39;
+  only the sweep became automatic.
+- Finding: **it unlocks by itself.** After deleting the 12 MiB object, the next
+  sweep logged `readOnly=false (size=316 ...)` and the write succeeded.
+- Finding: **vacuum ran by itself.** About 6 minutes after the delete, the worker
+  vacuumed the affected volumes (100% garbage → 0%) with nobody triggering it.
+  The admin's own maintenance scanner still logs `0 workers` and `MinAge=24h`,
+  while the worker uses `MinAge=0s`. Two maintenance systems seem to coexist;
+  the worker's is the one that acted.
+- Finding: the bucket-create 500 in the admin log didn't surface in the UI (the
+  quota was set afterwards, not in the create form). Login is username and
+  password only. Cluster/volume views show capacity and free space; the worker
+  is listed; there's no obvious way to start a vacuum by hand.
+- Finding: bucket creation in the UI logged `500 POST /api/s3/buckets` although
+  the bucket exists. The worker gRPC port 33646 accepts unauthenticated workers
+  without gRPC mTLS (admin logs a warning). The console takes the cluster
+  `lock shell`, so it contends with `weed shell` sessions. It runs vacuum/EC
+  detection every 30 min.
+- Impact: closes the `s3.accesskey.rotate` open question (via the console). For
+  UDS: login is a single built-in password, so SSO needs a fronting proxy;
+  port 33646 needs mTLS or a NetworkPolicy.
+- Refs: ADR Day-2 operations, `docs/03-admin-runbook.md`
+
+### 2026-11-05 — Hands-on: SSE-S3 works once a key is set; the key is now critical data
+- Context: Guided exercise 2. Set `s3.extraEnvironmentVars.WEED_S3_SSE_KEY` (any
+  string; HKDF-derived 256-bit KEK) via Helm; `WEED_S3_SSE_KEK` takes a 64-hex key.
+- Finding: with the key set, the gateway logs `Derived KEK from s3.sse.key config`.
+  `--server-side-encryption AES256` PUTs return `ServerSideEncryption: AES256`,
+  `head-object` reports it, and GET returns the plaintext.
+  `PutBucketEncryption` (AES256 default) is honoured: an upload with no SSE header
+  comes back encrypted.
+- Finding: **changing the key makes existing objects unreadable**. GET returns
+  `500 InternalError`, which aws-cli retries ("reached max retries: 2") before
+  failing. Restoring the original key recovers the object fully. So the key is
+  as critical as the data: losing it loses every SSE-S3 object, and the error
+  looks transient rather than "wrong key".
+- Finding: the same key also signs **STS**. With no key the gateway logs
+  `Failed to load IAM configuration: no signing key found for STS service`; with
+  one it logs `Using SSE-S3 Master Key (KEK) for STS service`. Rotating the SSE
+  key therefore also rotates STS signing.
+- Finding: **data really is encrypted at rest.** `fs.cat` on the filer returns
+  ciphertext. `fs.meta.cat` shows envelope encryption: each chunk carries
+  `sseType: SSE_S3` and a JSON blob (`algorithm`, `encryptedDEK`, `iv`, `nonce`,
+  `keyCommitment`, `keyId`). So the per-object data key lives in filer metadata,
+  wrapped by the KEK. The plaintext MD5 (ETag) is also stored there, as on AWS.
+- Finding: **with no key at all**, an SSE-S3 PUT returns `500 InternalError`
+  (aws-cli retries, then fails, ~1s), and GETs of existing encrypted objects
+  also 500. The gateway log does say why: `failed to decrypt DEK: SSE-S3
+  decryption is not configured`. The client error doesn't.
+- Finding: **a routine `just deploy` (values without the key) made every
+  encrypted object unreadable.** Dropping the key from Helm values is enough.
+- Impact: the UDS package should supply the key from a Secret that is part of
+  the package's own values (so redeploys can't drop it), back it up with the
+  data, and treat key rotation as a migration, not a config change. Alerting on
+  `failed to decrypt DEK` in gateway logs would catch a missing or wrong key
+  that clients see only as retried 500s.
+- Finding (chart 4.48.0): the standalone S3 gateway can't take env vars from a
+  Secret. It has `extraEnvironmentVars` only; `secretExtraEnvironmentVars` exists
+  for filer, admin and allInOne. `security.toml` has no SSE fields either, so
+  the key ends up in plain Helm values and the Deployment spec.
+- Refs: P3-10, `s3-testsuite/RESULTS.md` finding 2
+
+### 2026-11-05 — Hands-on: non-empty bucket delete wipes data by default; the flag fixes it cleanly
+- Context: Guided exercise 1 on the 4.48 lab via port-forward and aws-cli. Put
+  three objects in `ex1`, then ran a plain `s3api delete-bucket` (no `--force`).
+- Finding: with chart defaults the delete **returned exit 0 and removed the
+  bucket and all three objects**. Recreating `ex1` gave an empty bucket, and the
+  filer (`weed shell` → `fs.ls /buckets`) showed only the new, empty directory.
+  Nothing to recover.
+- Finding: with `s3.extraArgs: ["-allowDeleteBucketNotEmpty=false"]` the same call
+  returns **HTTP 409 `BucketNotEmpty`**, AWS-shaped XML, and the objects remain.
+  That settles the 4.13 concern: 4.48 does not answer with a 500.
+- Impact: the fix is one values entry with correct S3 semantics. It must be in
+  the UDS package defaults, because the unsafe default is invisible: nothing
+  in the response or logs says data was deleted.
+- Refs: P3-10, `s3-testsuite/RESULTS.md` finding 1
+
+### 2026-10-22 — Second-opinion suite: 88% on the common path; two risky chart defaults
+- Context: Ran the third-party [s3-testsuite](https://github.com/michalszynkiewicz/s3-testsuite)
+  (standard 207 + extended 63 tests) in-cluster via `just s3-testsuite`, and
+  compared against its authors' published AWS / MinIO / SeaweedFS-4.13 runs.
+- Finding: **standard 183/207 (88%), extended 62/63** — ahead of the MinIO
+  reference (176 / 60). 12 tests fixed since 4.13, including **Content-MD5
+  validation** (wrong digests used to be accepted). All P0 areas and all
+  concurrency/atomicity/listing-consistency tests pass. Gateway peaked at 389Mi,
+  no restarts.
+- Finding: **object lock works** — 8/8 here and 39/39 in Ceph s3-tests. The ADR
+  had listed it as a gap; corrected.
+- Finding (config): `weed s3` defaults to `-allowDeleteBucketNotEmpty=true` and
+  the chart doesn't override it — **DeleteBucket on a non-empty bucket deletes
+  every object in it**. AWS/MinIO return `409 BucketNotEmpty`.
+- Finding (config): SSE-S3 is **disabled unless a KEK is configured**
+  (`s3.sse.kek` in `security.toml`); without it an SSE-S3 PUT returns `500
+  InternalError` — retried by clients — instead of a 4xx. 4.13 didn't need this.
+- Finding: `dir` and `dir/` can't coexist (`ExistingObjectIsFile` — the filer is
+  a real file system); empty metadata values are dropped; unimplemented bucket
+  APIs answer `BucketAlreadyOwnedByYou` instead of `NotImplemented`.
+- Impact: the UDS package must set `allowDeleteBucketNotEmpty=false` and either
+  configure an SSE-S3 KEK or document that SSE-S3 is unavailable. The 88% vs
+  ~51% gap with Ceph s3-tests is depth, not disagreement: this suite checks the
+  common path (its ACL tests never check enforcement), Ceph checks edge
+  semantics.
+- Refs: P3-10, `s3-testsuite/RESULTS.md`
+
 ### 2026-10-15 — 4.48: the 48 s3-tests errors were harness artifacts; multipart memory retention persists
 - Context: Bumped chart 4.39.0 → 4.48.0, re-ran the full s3-tests suite and the
   P3-08 memory drill.
