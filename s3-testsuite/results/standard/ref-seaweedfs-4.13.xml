@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="32" skipped="1" tests="207" time="69.327" timestamp="2026-02-19T10:48:16.969954+01:00" hostname="ryzen3d"><testcase classname="tests.test_acl.TestBucketACL" name="test_get_default_bucket_acl" time="0.047" /><testcase classname="tests.test_acl.TestBucketACL" name="test_put_bucket_acl_private" time="0.062" /><testcase classname="tests.test_acl.TestBucketACL" name="test_put_bucket_acl_public_read" time="0.059" /><testcase classname="tests.test_acl.TestObjectACL" name="test_get_default_object_acl" time="0.243" /><testcase classname="tests.test_acl.TestObjectACL" name="test_put_object_acl_private" time="0.253" /><testcase classname="tests.test_acl.TestObjectACL" name="test_put_object_acl_public_read" time="0.255" /><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_private_on_upload" time="0.249" /><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_public_read_on_upload" time="0.239" /><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_bucket_owner_full_control_on_upload" time="0.253" /><testcase classname="tests.test_auth.TestAnonymousAccess" name="test_anonymous_read_with_public_policy" time="0.256" /><testcase classname="tests.test_auth.TestAnonymousAccess" name="test_anonymous_access_denied_without_policy" time="0.240" /><testcase classname="tests.test_auth.TestSTSTemporaryCredentials" name="test_assume_role_basic" time="0.012"><skipped type="pytest.skip" message="STS AssumeRole not supported: An error occurred (AccessDenied) when calling the AssumeRole operation: trust policy denies access">/home/michal/work/s3-testsuite/tests/test_auth.py:61: STS AssumeRole not supported: An error occurred (AccessDenied) when calling the AssumeRole operation: trust policy denies access</skipped></testcase><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_and_delete" time="0.004" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_already_exists" time="0.006" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_invalid_name_too_short" time="0.002" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_invalid_name_uppercase" time="0.001" /><testcase classname="tests.test_bucket_basic.TestDeleteBucket" name="test_delete_nonexistent_bucket" time="0.001" /><testcase classname="tests.test_bucket_basic.TestDeleteBucket" name="test_delete_nonempty_bucket" time="0.601"><failure message="AssertionError: expected error code BucketNotEmpty, got 'InternalError'&#10;assert 'InternalError' == 'BucketNotEmpty'&#10;  &#10;  - BucketNotEmpty&#10;  + InternalError">tests/test_bucket_basic.py:48: in test_delete_nonempty_bucket
+    s3_client.delete_bucket(Bucket=bucket)
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (InternalError) when calling the DeleteBucket operation (reached max retries: 1): We encountered an internal error, please try again.
+
+During handling of the above exception, another exception occurred:
+tests/test_bucket_basic.py:52: in test_delete_nonempty_bucket
+    assert code == "BucketNotEmpty", (
+E   AssertionError: expected error code BucketNotEmpty, got 'InternalError'
+E   assert 'InternalError' == 'BucketNotEmpty'
+E     
+E     - BucketNotEmpty
+E     + InternalError</failure></testcase><testcase classname="tests.test_bucket_basic.TestHeadBucket" name="test_head_existing" time="0.006" /><testcase classname="tests.test_bucket_basic.TestHeadBucket" name="test_head_nonexistent" time="0.001" /><testcase classname="tests.test_bucket_basic.TestListBuckets" name="test_list_includes_created_bucket" time="0.006" /><testcase classname="tests.test_bucket_basic.TestListBuckets" name="test_list_buckets_has_creation_date" time="0.005" /><testcase classname="tests.test_bucket_basic.TestGetBucketLocation" name="test_get_location" time="0.005" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_put_and_get_policy" time="0.008" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_delete_policy" time="0.008" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_no_policy_returns_error" time="0.005" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_replace_policy" time="0.008" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyEnforcement" name="test_public_read_policy" time="0.257" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyEnforcement" name="test_deny_policy" time="0.251" /><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_put_and_get_tags" time="0.008" /><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_delete_tags" time="0.007" /><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_replace_tags" time="0.007" /><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_no_tags_returns_error" time="0.005" /><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_read_after_put" time="0.247" /><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_head_after_put" time="0.255" /><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_list_after_put" time="0.252" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_get_after_delete" time="0.256" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_head_after_delete" time="0.250" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_list_after_delete" time="0.247" /><testcase classname="tests.test_consistency.TestReadAfterOverwrite" name="test_immediate_read_after_overwrite" time="0.252" /><testcase classname="tests.test_consistency.TestConcurrentWrites" name="test_concurrent_puts_all_succeed" time="0.254" /><testcase classname="tests.test_consistency.TestConcurrentWrites" name="test_concurrent_puts_to_different_keys" time="0.279" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_put_and_get_cors" time="0.007" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_delete_cors" time="0.007" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_no_cors_returns_error" time="0.005" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_multiple_cors_rules" time="0.006" /><testcase classname="tests.test_cors.TestCORSPreflight" name="test_options_preflight" time="0.007" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_bucket" time="0.001" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_key" time="0.005" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_bucket_not_empty" time="0.539"><failure message="AssertionError: expected error code BucketNotEmpty, got 'InternalError'&#10;assert 'InternalError' == 'BucketNotEmpty'&#10;  &#10;  - BucketNotEmpty&#10;  + InternalError">tests/test_errors.py:26: in test_bucket_not_empty
+    s3_client.delete_bucket(Bucket=bucket)
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (InternalError) when calling the DeleteBucket operation (reached max retries: 1): We encountered an internal error, please try again.
+
+During handling of the above exception, another exception occurred:
+tests/test_errors.py:30: in test_bucket_not_empty
+    assert code == "BucketNotEmpty", (
+E   AssertionError: expected error code BucketNotEmpty, got 'InternalError'
+E   assert 'InternalError' == 'BucketNotEmpty'
+E     
+E     - BucketNotEmpty
+E     + InternalError</failure></testcase><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_upload" time="0.005" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_404_for_missing_object" time="0.006" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_404_for_missing_bucket" time="0.002" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_409_bucket_not_empty" time="0.356"><failure message="AssertionError: expected HTTP 409, got HTTP 500 (code: 'InternalError')&#10;assert 500 == 409">tests/test_errors.py:56: in test_409_bucket_not_empty
+    s3_client.delete_bucket(Bucket=bucket)
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (InternalError) when calling the DeleteBucket operation (reached max retries: 1): We encountered an internal error, please try again.
+
+During handling of the above exception, another exception occurred:
+tests/test_errors.py:60: in test_409_bucket_not_empty
+    assert status == 409, (
+E   AssertionError: expected HTTP 409, got HTTP 500 (code: 'InternalError')
+E   assert 500 == 409</failure></testcase><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_match_success" time="0.262" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_match_failure" time="0.255" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_none_match_returns_304" time="0.255" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_modified_since" time="0.255" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_unmodified_since_failure" time="0.255" /><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_is_md5_for_simple_put" time="0.236" /><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_consistent_across_get_and_head" time="0.257" /><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_changes_on_overwrite" time="0.258" /><testcase classname="tests.test_integrity.TestETagMultipart" name="test_multipart_etag_format" time="0.306" /><testcase classname="tests.test_integrity.TestContentMD5Validation" name="test_correct_md5_accepted" time="0.255" /><testcase classname="tests.test_integrity.TestContentMD5Validation" name="test_wrong_md5_rejected" time="0.253"><failure message="Failed: put_object with wrong Content-MD5 succeeded (expected BadDigest or InvalidDigest error)">tests/test_integrity.py:90: in test_wrong_md5_rejected
+    pytest.fail("put_object with wrong Content-MD5 succeeded (expected BadDigest or InvalidDigest error)")
+E   Failed: put_object with wrong Content-MD5 succeeded (expected BadDigest or InvalidDigest error)</failure></testcase><testcase classname="tests.test_integrity.TestETagOnCopy" name="test_copy_produces_new_etag" time="0.249" /><testcase classname="tests.test_integrity.TestETagOnCopy" name="test_etag_in_list_matches_head" time="0.255" /><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_put_and_get_inventory" time="0.010"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketInventoryConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_inventory.py:27: in test_put_and_get_inventory
+    s3_client.put_bucket_inventory_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketInventoryConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_list_inventory_configs" time="0.010"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketInventoryConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_inventory.py:57: in test_list_inventory_configs
+    s3_client.put_bucket_inventory_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketInventoryConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_delete_inventory" time="0.012"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketInventoryConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_inventory.py:86: in test_delete_inventory
+    s3_client.put_bucket_inventory_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketInventoryConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_10mb" time="0.294" /><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_50mb" time="0.330" /><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_50mb_integrity" time="0.442" /><testcase classname="tests.test_large_objects.TestMultipartSizes" name="test_multipart_10_parts" time="0.477" /><testcase classname="tests.test_large_objects.TestMultipartSizes" name="test_multipart_varying_part_sizes" time="0.359" /><testcase classname="tests.test_large_objects.TestRangeReadLargeObject" name="test_range_read_middle_of_large_object" time="0.294" /><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_put_and_get_lifecycle" time="0.008"><failure message="AssertionError: expected rule ID 'expire-old', got 'logs/'&#10;assert 'logs/' == 'expire-old'&#10;  &#10;  - expire-old&#10;  + logs/">tests/test_lifecycle.py:26: in test_put_and_get_lifecycle
+    assert actual_id == "expire-old", (
+E   AssertionError: expected rule ID 'expire-old', got 'logs/'
+E   assert 'logs/' == 'expire-old'
+E     
+E     - expire-old
+E     + logs/</failure></testcase><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_delete_lifecycle" time="0.007"><failure message="Failed: get_bucket_lifecycle_configuration succeeded after delete (expected NoSuchLifecycleConfiguration error)">tests/test_lifecycle.py:46: in test_delete_lifecycle
+    pytest.fail(
+E   Failed: get_bucket_lifecycle_configuration succeeded after delete (expected NoSuchLifecycleConfiguration error)</failure></testcase><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_no_lifecycle_returns_error" time="0.005" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_expiration_by_days" time="0.005" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_abort_incomplete_multipart" time="0.006"><failure message="botocore.exceptions.ClientError: An error occurred (NoSuchLifecycleConfiguration) when calling the GetBucketLifecycleConfiguration operation: The lifecycle configuration does not exist">tests/test_lifecycle.py:88: in test_abort_incomplete_multipart
+    resp = s3_client.get_bucket_lifecycle_configuration(Bucket=bucket)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NoSuchLifecycleConfiguration) when calling the GetBucketLifecycleConfiguration operation: The lifecycle configuration does not exist</failure></testcase><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_multiple_rules" time="0.007"><failure message="AssertionError: expected rule IDs {'rule1', 'rule2'}, got {'a/', 'b/'}&#10;assert {'a/', 'b/'} == {'rule1', 'rule2'}&#10;  &#10;  Extra items in the left set:&#10;  'a/'&#10;  'b/'&#10;  Extra items in the right set:&#10;  'rule2'&#10;  'rule1'...&#10;  &#10;  ...Full output truncated (8 lines hidden), use '-vv' to show">tests/test_lifecycle.py:114: in test_multiple_rules
+    assert ids == {"rule1", "rule2"}, (
+E   AssertionError: expected rule IDs {'rule1', 'rule2'}, got {'a/', 'b/'}
+E   assert {'a/', 'b/'} == {'rule1', 'rule2'}
+E     
+E     Extra items in the left set:
+E     'a/'
+E     'b/'
+E     Extra items in the right set:
+E     'rule2'
+E     'rule1'...
+E     
+E     ...Full output truncated (8 lines hidden), use '-vv' to show</failure></testcase><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_disabled_rule" time="0.007"><failure message="botocore.exceptions.ClientError: An error occurred (NoSuchLifecycleConfiguration) when calling the GetBucketLifecycleConfiguration operation: The lifecycle configuration does not exist">tests/test_lifecycle.py:129: in test_disabled_rule
+    resp = s3_client.get_bucket_lifecycle_configuration(Bucket=bucket)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NoSuchLifecycleConfiguration) when calling the GetBucketLifecycleConfiguration operation: The lifecycle configuration does not exist</failure></testcase><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_filter_by_tag" time="0.007"><failure message="AssertionError: expected 'Filter' key in rule, got keys: ['Expiration', 'Prefix', 'Status']&#10;assert 'Filter' in {'Expiration': {'Days': 14}, 'Prefix': '', 'Status': 'Enabled'}">tests/test_lifecycle.py:148: in test_filter_by_tag
+    assert "Filter" in rule, f"expected 'Filter' key in rule, got keys: {list(rule.keys())}"
+E   AssertionError: expected 'Filter' key in rule, got keys: ['Expiration', 'Prefix', 'Status']
+E   assert 'Filter' in {'Expiration': {'Days': 14}, 'Prefix': '', 'Status': 'Enabled'}</failure></testcase><testcase classname="tests.test_logging.TestBucketLogging" name="test_get_logging_default_empty" time="0.006" /><testcase classname="tests.test_logging.TestBucketLogging" name="test_put_and_get_logging" time="0.009"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketLogging operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_logging.py:21: in test_put_and_get_logging
+    s3_client.put_bucket_logging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketLogging operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.
+
+During handling of the above exception, another exception occurred:
+tests/test_logging.py:35: in test_put_and_get_logging
+    s3_client.put_bucket_logging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketLogging operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_logging.TestBucketLogging" name="test_disable_logging" time="0.010"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketLogging operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_logging.py:45: in test_disable_logging
+    s3_client.put_bucket_logging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketLogging operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_metadata.TestContentType" name="test_set_and_retrieve_content_type" time="0.225" /><testcase classname="tests.test_metadata.TestContentType" name="test_default_content_type" time="0.254" /><testcase classname="tests.test_metadata.TestContentDisposition" name="test_content_disposition" time="0.256" /><testcase classname="tests.test_metadata.TestContentEncoding" name="test_content_encoding" time="0.240" /><testcase classname="tests.test_metadata.TestCacheControl" name="test_cache_control" time="0.255" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_custom_metadata" time="0.259" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_metadata_preserved_on_get" time="0.256" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_empty_metadata_value" time="0.254"><failure message="KeyError: 'empty'">tests/test_metadata.py:77: in test_empty_metadata_value
+    assert resp["Metadata"]["empty"] == ""
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'empty'</failure></testcase><testcase classname="tests.test_metadata.TestMetadataOnCopy" name="test_copy_preserves_metadata" time="0.257" /><testcase classname="tests.test_metadata.TestMetadataOnCopy" name="test_copy_replace_metadata" time="0.257"><failure message="AssertionError: assert 'old' not in {'new': 'value', 'old': 'value'}">tests/test_metadata.py:108: in test_copy_replace_metadata
+    assert "old" not in resp["Metadata"]
+E   AssertionError: assert 'old' not in {'new': 'value', 'old': 'value'}</failure></testcase><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_create_complete_multipart" time="0.301" /><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_create_multipart_with_content_type" time="0.276" /><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_complete_multipart_data_integrity" time="0.363" /><testcase classname="tests.test_multipart.TestMultipartSmallLastPart" name="test_last_part_smaller_than_5mb" time="0.270" /><testcase classname="tests.test_multipart.TestMultipartAbort" name="test_abort_multipart" time="0.278" /><testcase classname="tests.test_multipart.TestListMultipartUploads" name="test_list_in_progress_uploads" time="0.008" /><testcase classname="tests.test_multipart.TestListMultipartUploads" name="test_list_empty_after_abort" time="0.006" /><testcase classname="tests.test_multipart.TestListParts" name="test_list_uploaded_parts" time="0.313" /><testcase classname="tests.test_multipart.TestUploadPartCopy" name="test_upload_part_copy" time="0.491" /><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_get_empty_notification_config" time="0.006" /><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_put_and_get_notification_config" time="0.006"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketNotificationConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_notifications.py:31: in test_put_and_get_notification_config
+    s3_client.put_bucket_notification_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketNotificationConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_clear_notification_config" time="0.006"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketNotificationConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_notifications.py:47: in test_clear_notification_config
+    s3_client.put_bucket_notification_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketNotificationConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_small_object" time="0.255" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_empty_object" time="0.008" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_binary_data" time="0.851" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_overwrite" time="0.255" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_get_nonexistent_key" time="0.006" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_start" time="0.253" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_middle" time="0.242" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_suffix" time="0.254" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_to_end" time="0.255" /><testcase classname="tests.test_object_crud.TestHeadObject" name="test_head_returns_metadata" time="0.244" /><testcase classname="tests.test_object_crud.TestHeadObject" name="test_head_nonexistent" time="0.005" /><testcase classname="tests.test_object_crud.TestDeleteObject" name="test_delete_existing" time="0.252" /><testcase classname="tests.test_object_crud.TestDeleteObject" name="test_delete_nonexistent_is_idempotent" time="0.006" /><testcase classname="tests.test_object_crud.TestDeleteObjects" name="test_bulk_delete" time="0.325" /><testcase classname="tests.test_object_crud.TestDeleteObjects" name="test_bulk_delete_partial_nonexistent" time="0.278" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_same_bucket" time="0.248" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_cross_bucket" time="0.485" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_preserves_content_type" time="0.248" /><testcase classname="tests.test_object_crud.TestContentMD5" name="test_put_with_correct_md5" time="0.252" /><testcase classname="tests.test_object_crud.TestContentMD5" name="test_put_with_wrong_md5_is_rejected" time="0.253"><failure message="Failed: put_object with wrong Content-MD5 succeeded (expected BadDigest or InvalidDigest error)">tests/test_object_crud.py:175: in test_put_with_wrong_md5_is_rejected
+    pytest.fail("put_object with wrong Content-MD5 succeeded (expected BadDigest or InvalidDigest error)")
+E   Failed: put_object with wrong Content-MD5 succeeded (expected BadDigest or InvalidDigest error)</failure></testcase><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[simple]" time="0.240" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with spaces]" time="0.843" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with/slashes/nested]" time="0.955" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with.dots.ext]" time="0.257" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with-dashes]" time="0.248" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with_underscores]" time="0.254" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[unicode-\xe9\xe8\xea]" time="0.243" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[deep/nested/path/to/object.txt]" time="0.966" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_empty_bucket" time="0.006" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_returns_all_objects" time="0.257" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix" time="0.794" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix_no_match" time="0.550" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_delimiter" time="0.957" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix_and_delimiter" time="0.917" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_returns_sorted_keys" time="0.248" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_max_keys" time="0.264" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_pagination_complete" time="0.269" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_pagination_over_1000_objects" time="1.631" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_basic" time="0.256" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_with_marker_pagination" time="0.266" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_with_delimiter" time="1.018" /><testcase classname="tests.test_object_listing.TestListObjectMetadata" name="test_list_includes_etag_and_size" time="0.241" /><testcase classname="tests.test_object_lock.TestObjectLockConfiguration" name="test_get_lock_config" time="0.006" /><testcase classname="tests.test_object_lock.TestObjectLockConfiguration" name="test_set_default_retention" time="0.006" /><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_set_and_get_retention" time="0.212" /><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_cannot_delete_retained_object" time="0.212" /><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_governance_bypass" time="0.239" /><testcase classname="tests.test_object_lock.TestLegalHold" name="test_set_and_get_legal_hold" time="0.212" /><testcase classname="tests.test_object_lock.TestLegalHold" name="test_remove_legal_hold" time="0.242" /><testcase classname="tests.test_object_lock.TestLegalHold" name="test_cannot_delete_with_legal_hold" time="0.211" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_put_and_get_tags" time="0.242" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_delete_tags" time="0.228" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_replace_tags" time="2.661" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_max_10_tags" time="0.256" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_get_tags_no_tags" time="0.252" /><testcase classname="tests.test_object_tagging.TestTagsOnUpload" name="test_tags_via_header" time="0.245" /><testcase classname="tests.test_object_tagging.TestTagsOnCopy" name="test_copy_preserves_tags_by_default" time="4.258" /><testcase classname="tests.test_object_tagging.TestTagsOnCopy" name="test_copy_replace_tags" time="0.250" /><testcase classname="tests.test_presigned.TestPresignedGet" name="test_presigned_get" time="0.237" /><testcase classname="tests.test_presigned.TestPresignedGet" name="test_presigned_get_with_content_type" time="0.239" /><testcase classname="tests.test_presigned.TestPresignedPut" name="test_presigned_put" time="4.271" /><testcase classname="tests.test_presigned.TestPresignedDelete" name="test_presigned_delete" time="0.263" /><testcase classname="tests.test_presigned.TestPresignedExpiration" name="test_expired_url_rejected" time="3.215" /><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_put_and_get_replication" time="0.015"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketReplication operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_replication.py:42: in test_put_and_get_replication
+    s3_client.put_bucket_replication(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketReplication operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_delete_replication" time="0.013"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketReplication operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_replication.py:70: in test_delete_replication
+    s3_client.put_bucket_replication(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketReplication operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_no_replication_returns_error" time="0.006"><failure message="Failed: get_bucket_replication on unconfigured bucket succeeded (expected ReplicationConfigurationNotFoundError)">tests/test_replication.py:95: in test_no_replication_returns_error
+    pytest.fail(
+E   Failed: get_bucket_replication on unconfigured bucket succeeded (expected ReplicationConfigurationNotFoundError)</failure></testcase><testcase classname="tests.test_sse.TestSSES3" name="test_put_with_sse_s3" time="0.260" /><testcase classname="tests.test_sse.TestSSES3" name="test_get_sse_s3_transparent" time="0.218" /><testcase classname="tests.test_sse.TestSSES3" name="test_copy_preserves_sse_s3" time="1.052" /><testcase classname="tests.test_sse.TestDefaultBucketEncryption" name="test_set_default_encryption_aes256" time="0.009" /><testcase classname="tests.test_sse.TestDefaultBucketEncryption" name="test_delete_bucket_encryption" time="0.008" /><testcase classname="tests.test_sse.TestSSEC" name="test_put_get_with_sse_c" time="0.248" /><testcase classname="tests.test_sse.TestSSEC" name="test_get_sse_c_without_key_fails" time="0.256" /><testcase classname="tests.test_sse.TestSSEC" name="test_get_sse_c_with_wrong_key_fails" time="0.254" /><testcase classname="tests.test_sse.TestSSEC" name="test_head_sse_c_requires_key" time="0.226" /><testcase classname="tests.test_sse.TestSSEC" name="test_copy_sse_c" time="4.821"><failure message="botocore.exceptions.ClientError: An error occurred (InternalError) when calling the CopyObject operation (reached max retries: 1): We encountered an internal error, please try again.">tests/test_sse.py:178: in test_copy_sse_c
+    s3_client.copy_object(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (InternalError) when calling the CopyObject operation (reached max retries: 1): We encountered an internal error, please try again.</failure></testcase><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_put_and_get_tiering" time="0.009"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketIntelligentTieringConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_tiering.py:25: in test_put_and_get_tiering
+    s3_client.put_bucket_intelligent_tiering_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketIntelligentTieringConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_list_tiering_configs" time="0.007"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketIntelligentTieringConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_tiering.py:45: in test_list_tiering_configs
+    s3_client.put_bucket_intelligent_tiering_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketIntelligentTieringConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_delete_tiering" time="0.006"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketIntelligentTieringConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_tiering.py:65: in test_delete_tiering
+    s3_client.put_bucket_intelligent_tiering_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketIntelligentTieringConfiguration operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_enable_versioning" time="0.006" /><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_suspend_versioning" time="0.007" /><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_versioning_initially_unset" time="0.005" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_put_returns_version_id" time="0.255" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_multiple_versions" time="0.227" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_get_specific_version" time="0.258" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_get_latest_version" time="0.239" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_head_specific_version" time="3.065" /><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_delete_creates_marker" time="0.248" /><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_get_after_delete_marker_returns_404" time="0.250" /><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_delete_specific_version_permanent" time="0.260" /><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_versions" time="0.240" /><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_includes_delete_markers" time="4.058" /><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_versions_with_prefix" time="0.626" /><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_put_and_get_website_config" time="0.008"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketWebsite operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_website.py:11: in test_put_and_get_website_config
+    s3_client.put_bucket_website(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketWebsite operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_delete_website_config" time="0.008"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketWebsite operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_website.py:23: in test_delete_website_config
+    s3_client.put_bucket_website(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketWebsite operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_no_website_config_returns_error" time="0.008"><failure message="Failed: get_bucket_website on unconfigured bucket succeeded (expected NoSuchWebsiteConfiguration error)">tests/test_website.py:46: in test_no_website_config_returns_error
+    pytest.fail(
+E   Failed: get_bucket_website on unconfigured bucket succeeded (expected NoSuchWebsiteConfiguration error)</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_website_with_redirect_rules" time="0.007"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketWebsite operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_website.py:57: in test_website_with_redirect_rules
+    s3_client.put_bucket_website(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketWebsite operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_website_redirect_all" time="0.007"><failure message="botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketWebsite operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.">tests/test_website.py:74: in test_website_redirect_all
+    s3_client.put_bucket_website(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.errorfactory.BucketAlreadyExists: An error occurred (BucketAlreadyExists) when calling the PutBucketWebsite operation: The requested bucket name is not available. The bucket name can not be an existing collection, and the bucket namespace is shared by all users of the system. Please select a different name and try again.</failure></testcase></testsuite></testsuites>

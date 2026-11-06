@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="13" failures="72" skipped="1" tests="207" time="11.050" timestamp="2026-02-17T23:58:49.143222+01:00" hostname="ryzen3d"><testcase classname="tests.test_acl.TestBucketACL" name="test_get_default_bucket_acl" time="0.056"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketAcl operation: Unimplemented action: GetBucketAcl">tests/test_acl.py:11: in test_get_default_bucket_acl
+    resp = s3_client.get_bucket_acl(Bucket=bucket)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketAcl operation: Unimplemented action: GetBucketAcl</failure></testcase><testcase classname="tests.test_acl.TestBucketACL" name="test_put_bucket_acl_private" time="0.016"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketAcl operation: Unimplemented action: PutBucketAcl">tests/test_acl.py:18: in test_put_bucket_acl_private
+    s3_client.put_bucket_acl(Bucket=bucket, ACL="private")
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketAcl operation: Unimplemented action: PutBucketAcl</failure></testcase><testcase classname="tests.test_acl.TestBucketACL" name="test_put_bucket_acl_public_read" time="0.015"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketAcl operation: Unimplemented action: PutBucketAcl">tests/test_acl.py:26: in test_put_bucket_acl_public_read
+    s3_client.put_bucket_acl(Bucket=bucket, ACL="public-read")
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketAcl operation: Unimplemented action: PutBucketAcl</failure></testcase><testcase classname="tests.test_acl.TestObjectACL" name="test_get_default_object_acl" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectAcl operation: Unimplemented action: GetObjectAcl">tests/test_acl.py:35: in test_get_default_object_acl
+    resp = s3_client.get_object_acl(Bucket=bucket, Key="acl")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectAcl operation: Unimplemented action: GetObjectAcl</failure></testcase><testcase classname="tests.test_acl.TestObjectACL" name="test_put_object_acl_private" time="0.018"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectAcl operation: Unimplemented action: PutObjectAcl">tests/test_acl.py:42: in test_put_object_acl_private
+    s3_client.put_object_acl(Bucket=bucket, Key="acl", ACL="private")
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectAcl operation: Unimplemented action: PutObjectAcl</failure></testcase><testcase classname="tests.test_acl.TestObjectACL" name="test_put_object_acl_public_read" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectAcl operation: Unimplemented action: PutObjectAcl">tests/test_acl.py:50: in test_put_object_acl_public_read
+    s3_client.put_object_acl(Bucket=bucket, Key="acl", ACL="public-read")
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectAcl operation: Unimplemented action: PutObjectAcl</failure></testcase><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_private_on_upload" time="0.015"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectAcl operation: Unimplemented action: GetObjectAcl">tests/test_acl.py:61: in test_private_on_upload
+    resp = s3_client.get_object_acl(Bucket=bucket, Key="canned")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectAcl operation: Unimplemented action: GetObjectAcl</failure></testcase><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_public_read_on_upload" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectAcl operation: Unimplemented action: GetObjectAcl">tests/test_acl.py:70: in test_public_read_on_upload
+    resp = s3_client.get_object_acl(Bucket=bucket, Key="canned")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectAcl operation: Unimplemented action: GetObjectAcl</failure></testcase><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_bucket_owner_full_control_on_upload" time="0.015"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectAcl operation: Unimplemented action: GetObjectAcl">tests/test_acl.py:79: in test_bucket_owner_full_control_on_upload
+    resp = s3_client.get_object_acl(Bucket=bucket, Key="canned")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectAcl operation: Unimplemented action: GetObjectAcl</failure></testcase><testcase classname="tests.test_auth.TestAnonymousAccess" name="test_anonymous_read_with_public_policy" time="0.025"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy">tests/test_auth.py:27: in test_anonymous_read_with_public_policy
+    s3_client.put_bucket_policy(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy</failure></testcase><testcase classname="tests.test_auth.TestAnonymousAccess" name="test_anonymous_access_denied_without_policy" time="0.015" /><testcase classname="tests.test_auth.TestSTSTemporaryCredentials" name="test_assume_role_basic" time="0.016"><skipped type="pytest.skip" message="STS AssumeRole not supported: An error occurred (Unknown) when calling the AssumeRole operation: Unknown">/home/michal/work/s3-testsuite/tests/test_auth.py:61: STS AssumeRole not supported: An error occurred (Unknown) when calling the AssumeRole operation: Unknown</skipped></testcase><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_and_delete" time="0.009" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_already_exists" time="0.015" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_invalid_name_too_short" time="0.001" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_invalid_name_uppercase" time="0.001" /><testcase classname="tests.test_bucket_basic.TestDeleteBucket" name="test_delete_nonexistent_bucket" time="0.001" /><testcase classname="tests.test_bucket_basic.TestDeleteBucket" name="test_delete_nonempty_bucket" time="0.015" /><testcase classname="tests.test_bucket_basic.TestHeadBucket" name="test_head_existing" time="0.013" /><testcase classname="tests.test_bucket_basic.TestHeadBucket" name="test_head_nonexistent" time="0.001" /><testcase classname="tests.test_bucket_basic.TestListBuckets" name="test_list_includes_created_bucket" time="0.015" /><testcase classname="tests.test_bucket_basic.TestListBuckets" name="test_list_buckets_has_creation_date" time="0.016" /><testcase classname="tests.test_bucket_basic.TestGetBucketLocation" name="test_get_location" time="0.014" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_put_and_get_policy" time="0.016"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy">tests/test_bucket_policy.py:25: in test_put_and_get_policy
+    s3_client.put_bucket_policy(Bucket=bucket, Policy=json.dumps(policy))
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy</failure></testcase><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_delete_policy" time="0.015"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy">tests/test_bucket_policy.py:42: in test_delete_policy
+    s3_client.put_bucket_policy(Bucket=bucket, Policy=json.dumps(policy))
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy</failure></testcase><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_no_policy_returns_error" time="0.014"><failure message="AssertionError: expected error code NoSuchBucketPolicy or NoSuchPolicy, got 'NotImplemented'&#10;assert 'NotImplemented' in ('NoSuchBucketPolicy', 'NoSuchPolicy')">tests/test_bucket_policy.py:59: in test_no_policy_returns_error
+    s3_client.get_bucket_policy(Bucket=bucket)
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketPolicy operation: Unimplemented action: GetBucketPolicy
+
+During handling of the above exception, another exception occurred:
+tests/test_bucket_policy.py:66: in test_no_policy_returns_error
+    assert code in ("NoSuchBucketPolicy", "NoSuchPolicy"), (
+E   AssertionError: expected error code NoSuchBucketPolicy or NoSuchPolicy, got 'NotImplemented'
+E   assert 'NotImplemented' in ('NoSuchBucketPolicy', 'NoSuchPolicy')</failure></testcase><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_replace_policy" time="0.015"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy">tests/test_bucket_policy.py:92: in test_replace_policy
+    s3_client.put_bucket_policy(Bucket=bucket, Policy=json.dumps(policy1))
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy</failure></testcase><testcase classname="tests.test_bucket_policy.TestBucketPolicyEnforcement" name="test_public_read_policy" time="0.018"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy">tests/test_bucket_policy.py:116: in test_public_read_policy
+    s3_client.put_bucket_policy(Bucket=bucket, Policy=json.dumps(policy))
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy</failure></testcase><testcase classname="tests.test_bucket_policy.TestBucketPolicyEnforcement" name="test_deny_policy" time="0.018"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy">tests/test_bucket_policy.py:138: in test_deny_policy
+    s3_client.put_bucket_policy(Bucket=bucket, Policy=json.dumps(policy))
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketPolicy operation: Unimplemented action: PutBucketPolicy</failure></testcase><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_put_and_get_tags" time="0.013"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketTagging operation: Unimplemented action: PutBucketTagging">tests/test_bucket_tagging.py:12: in test_put_and_get_tags
+    s3_client.put_bucket_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketTagging operation: Unimplemented action: PutBucketTagging</failure></testcase><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_delete_tags" time="0.013"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketTagging operation: Unimplemented action: PutBucketTagging">tests/test_bucket_tagging.py:24: in test_delete_tags
+    s3_client.put_bucket_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketTagging operation: Unimplemented action: PutBucketTagging</failure></testcase><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_replace_tags" time="0.013"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketTagging operation: Unimplemented action: PutBucketTagging">tests/test_bucket_tagging.py:40: in test_replace_tags
+    s3_client.put_bucket_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketTagging operation: Unimplemented action: PutBucketTagging</failure></testcase><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_no_tags_returns_error" time="0.013"><failure message="AssertionError: expected error code NoSuchTagSet, got 'NotImplemented'&#10;assert 'NotImplemented' == 'NoSuchTagSet'&#10;  &#10;  - NoSuchTagSet&#10;  + NotImplemented">tests/test_bucket_tagging.py:56: in test_no_tags_returns_error
+    resp = s3_client.get_bucket_tagging(Bucket=bucket)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketTagging operation: Unimplemented action: GetBucketTagging
+
+During handling of the above exception, another exception occurred:
+tests/test_bucket_tagging.py:63: in test_no_tags_returns_error
+    assert code == "NoSuchTagSet", (
+E   AssertionError: expected error code NoSuchTagSet, got 'NotImplemented'
+E   assert 'NotImplemented' == 'NoSuchTagSet'
+E     
+E     - NoSuchTagSet
+E     + NotImplemented</failure></testcase><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_read_after_put" time="0.015" /><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_head_after_put" time="0.015" /><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_list_after_put" time="0.015" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_get_after_delete" time="0.015" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_head_after_delete" time="0.015" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_list_after_delete" time="0.015" /><testcase classname="tests.test_consistency.TestReadAfterOverwrite" name="test_immediate_read_after_overwrite" time="0.016" /><testcase classname="tests.test_consistency.TestConcurrentWrites" name="test_concurrent_puts_all_succeed" time="0.024" /><testcase classname="tests.test_consistency.TestConcurrentWrites" name="test_concurrent_puts_to_different_keys" time="0.055" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_put_and_get_cors" time="0.014" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_delete_cors" time="0.014"><failure message="Failed: get_bucket_cors succeeded after delete (expected NoSuchCORSConfiguration error)">tests/test_cors.py:40: in test_delete_cors
+    pytest.fail(
+E   Failed: get_bucket_cors succeeded after delete (expected NoSuchCORSConfiguration error)</failure></testcase><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_no_cors_returns_error" time="0.012"><failure message="Failed: get_bucket_cors on unconfigured bucket returned 0 rules (expected NoSuchCORSConfiguration error)">tests/test_cors.py:53: in test_no_cors_returns_error
+    pytest.fail(
+E   Failed: get_bucket_cors on unconfigured bucket returned 0 rules (expected NoSuchCORSConfiguration error)</failure></testcase><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_multiple_cors_rules" time="0.013" /><testcase classname="tests.test_cors.TestCORSPreflight" name="test_options_preflight" time="0.013" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_bucket" time="0.001" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_key" time="0.013" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_bucket_not_empty" time="0.015" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_upload" time="0.013" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_404_for_missing_object" time="0.012" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_404_for_missing_bucket" time="0.001" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_409_bucket_not_empty" time="0.015" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_match_success" time="0.015" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_match_failure" time="0.015"><failure message="Failed: DID NOT RAISE &lt;class 'botocore.exceptions.ClientError'&gt;">tests/test_errors.py:77: in test_if_match_failure
+    with pytest.raises(ClientError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE &lt;class 'botocore.exceptions.ClientError'&gt;</failure></testcase><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_none_match_returns_304" time="0.015" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_modified_since" time="0.016" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_unmodified_since_failure" time="0.015"><failure message="Failed: DID NOT RAISE &lt;class 'botocore.exceptions.ClientError'&gt;">tests/test_errors.py:113: in test_if_unmodified_since_failure
+    with pytest.raises(ClientError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE &lt;class 'botocore.exceptions.ClientError'&gt;</failure></testcase><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_is_md5_for_simple_put" time="0.015" /><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_consistent_across_get_and_head" time="0.016" /><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_changes_on_overwrite" time="0.017" /><testcase classname="tests.test_integrity.TestETagMultipart" name="test_multipart_etag_format" time="0.061" /><testcase classname="tests.test_integrity.TestContentMD5Validation" name="test_correct_md5_accepted" time="0.015" /><testcase classname="tests.test_integrity.TestContentMD5Validation" name="test_wrong_md5_rejected" time="0.015" /><testcase classname="tests.test_integrity.TestETagOnCopy" name="test_copy_produces_new_etag" time="0.020" /><testcase classname="tests.test_integrity.TestETagOnCopy" name="test_etag_in_list_matches_head" time="0.017" /><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_put_and_get_inventory" time="0.024"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketInventoryConfiguration operation: Unimplemented action: PutBucketInventoryConfiguration">tests/test_inventory.py:27: in test_put_and_get_inventory
+    s3_client.put_bucket_inventory_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketInventoryConfiguration operation: Unimplemented action: PutBucketInventoryConfiguration</failure></testcase><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_list_inventory_configs" time="0.025"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketInventoryConfiguration operation: Unimplemented action: PutBucketInventoryConfiguration">tests/test_inventory.py:57: in test_list_inventory_configs
+    s3_client.put_bucket_inventory_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketInventoryConfiguration operation: Unimplemented action: PutBucketInventoryConfiguration</failure></testcase><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_delete_inventory" time="0.024"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketInventoryConfiguration operation: Unimplemented action: PutBucketInventoryConfiguration">tests/test_inventory.py:86: in test_delete_inventory
+    s3_client.put_bucket_inventory_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketInventoryConfiguration operation: Unimplemented action: PutBucketInventoryConfiguration</failure></testcase><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_10mb" time="0.055" /><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_50mb" time="0.205" /><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_50mb_integrity" time="0.325" /><testcase classname="tests.test_large_objects.TestMultipartSizes" name="test_multipart_10_parts" time="0.221" /><testcase classname="tests.test_large_objects.TestMultipartSizes" name="test_multipart_varying_part_sizes" time="0.107" /><testcase classname="tests.test_large_objects.TestRangeReadLargeObject" name="test_range_read_middle_of_large_object" time="0.096"><failure message="botocore.exceptions.FlexibleChecksumError: Expected checksum KxHXkQ== did not match calculated checksum: twtMJg==">tests/test_large_objects.py:107: in test_range_read_middle_of_large_object
+    chunk = resp["Body"].read()
+            ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:244: in read
+    self._validate_checksum()
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:264: in _validate_checksum
+    raise FlexibleChecksumError(error_msg=error_msg)
+E   botocore.exceptions.FlexibleChecksumError: Expected checksum KxHXkQ== did not match calculated checksum: twtMJg==</failure></testcase><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_put_and_get_lifecycle" time="0.014" /><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_delete_lifecycle" time="0.015"><failure message="Failed: get_bucket_lifecycle_configuration succeeded after delete (expected NoSuchLifecycleConfiguration error)">tests/test_lifecycle.py:46: in test_delete_lifecycle
+    pytest.fail(
+E   Failed: get_bucket_lifecycle_configuration succeeded after delete (expected NoSuchLifecycleConfiguration error)</failure></testcase><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_no_lifecycle_returns_error" time="0.014"><failure message="Failed: DID NOT RAISE &lt;class 'botocore.exceptions.ClientError'&gt;">tests/test_lifecycle.py:57: in test_no_lifecycle_returns_error
+    with pytest.raises(ClientError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE &lt;class 'botocore.exceptions.ClientError'&gt;</failure></testcase><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_expiration_by_days" time="0.013" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_abort_incomplete_multipart" time="0.013" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_multiple_rules" time="0.014" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_disabled_rule" time="0.013" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_filter_by_tag" time="0.013"><failure message="AssertionError: expected 'Filter' key in rule, got keys: ['Expiration', 'ID', 'Status']&#10;assert 'Filter' in {'Expiration': {'Days': 14}, 'ID': 'by-tag', 'Status': 'Enabled'}">tests/test_lifecycle.py:148: in test_filter_by_tag
+    assert "Filter" in rule, f"expected 'Filter' key in rule, got keys: {list(rule.keys())}"
+E   AssertionError: expected 'Filter' key in rule, got keys: ['Expiration', 'ID', 'Status']
+E   assert 'Filter' in {'Expiration': {'Days': 14}, 'ID': 'by-tag', 'Status': 'Enabled'}</failure></testcase><testcase classname="tests.test_logging.TestBucketLogging" name="test_get_logging_default_empty" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketLogging operation: Unimplemented action: GetBucketLogging">tests/test_logging.py:12: in test_get_logging_default_empty
+    resp = s3_client.get_bucket_logging(Bucket=bucket)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketLogging operation: Unimplemented action: GetBucketLogging</failure></testcase><testcase classname="tests.test_logging.TestBucketLogging" name="test_put_and_get_logging" time="0.018"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketLogging operation: Unimplemented action: PutBucketLogging">tests/test_logging.py:21: in test_put_and_get_logging
+    s3_client.put_bucket_logging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketLogging operation: Unimplemented action: PutBucketLogging
+
+During handling of the above exception, another exception occurred:
+tests/test_logging.py:35: in test_put_and_get_logging
+    s3_client.put_bucket_logging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketLogging operation: Unimplemented action: PutBucketLogging</failure></testcase><testcase classname="tests.test_logging.TestBucketLogging" name="test_disable_logging" time="0.025"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketLogging operation: Unimplemented action: PutBucketLogging">tests/test_logging.py:45: in test_disable_logging
+    s3_client.put_bucket_logging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketLogging operation: Unimplemented action: PutBucketLogging</failure></testcase><testcase classname="tests.test_metadata.TestContentType" name="test_set_and_retrieve_content_type" time="0.015" /><testcase classname="tests.test_metadata.TestContentType" name="test_default_content_type" time="0.015"><failure message="assert 'ContentType' in {'AcceptRanges': 'bytes', 'ContentLength': 4, 'ETag': '&quot;8d777f385d3dfec8815d20f7496026dc&quot;', 'LastModified': datetime.datetime(2026, 2, 17, 22, 58, 51, tzinfo=tzutc()), ...}">tests/test_metadata.py:20: in test_default_content_type
+    assert "ContentType" in resp
+E   assert 'ContentType' in {'AcceptRanges': 'bytes', 'ContentLength': 4, 'ETag': '"8d777f385d3dfec8815d20f7496026dc"', 'LastModified': datetime.datetime(2026, 2, 17, 22, 58, 51, tzinfo=tzutc()), ...}</failure></testcase><testcase classname="tests.test_metadata.TestContentDisposition" name="test_content_disposition" time="0.015" /><testcase classname="tests.test_metadata.TestContentEncoding" name="test_content_encoding" time="0.015" /><testcase classname="tests.test_metadata.TestCacheControl" name="test_cache_control" time="0.017" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_custom_metadata" time="0.016" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_metadata_preserved_on_get" time="0.016" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_empty_metadata_value" time="0.016" /><testcase classname="tests.test_metadata.TestMetadataOnCopy" name="test_copy_preserves_metadata" time="0.019" /><testcase classname="tests.test_metadata.TestMetadataOnCopy" name="test_copy_replace_metadata" time="0.018" /><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_create_complete_multipart" time="0.063" /><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_create_multipart_with_content_type" time="0.038" /><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_complete_multipart_data_integrity" time="0.125" /><testcase classname="tests.test_multipart.TestMultipartSmallLastPart" name="test_last_part_smaller_than_5mb" time="0.041" /><testcase classname="tests.test_multipart.TestMultipartAbort" name="test_abort_multipart" time="0.035" /><testcase classname="tests.test_multipart.TestListMultipartUploads" name="test_list_in_progress_uploads" time="0.017" /><testcase classname="tests.test_multipart.TestListMultipartUploads" name="test_list_empty_after_abort" time="0.016" /><testcase classname="tests.test_multipart.TestListParts" name="test_list_uploaded_parts" time="0.080" /><testcase classname="tests.test_multipart.TestUploadPartCopy" name="test_upload_part_copy" time="0.062" /><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_get_empty_notification_config" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketNotificationConfiguration operation: Unimplemented action: GetBucketNotificationConfiguration">tests/test_notifications.py:11: in test_get_empty_notification_config
+    resp = s3_client.get_bucket_notification_configuration(Bucket=bucket)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketNotificationConfiguration operation: Unimplemented action: GetBucketNotificationConfiguration</failure></testcase><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_put_and_get_notification_config" time="0.015"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketNotificationConfiguration operation: Unimplemented action: PutBucketNotificationConfiguration">tests/test_notifications.py:31: in test_put_and_get_notification_config
+    s3_client.put_bucket_notification_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketNotificationConfiguration operation: Unimplemented action: PutBucketNotificationConfiguration</failure></testcase><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_clear_notification_config" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketNotificationConfiguration operation: Unimplemented action: PutBucketNotificationConfiguration">tests/test_notifications.py:47: in test_clear_notification_config
+    s3_client.put_bucket_notification_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketNotificationConfiguration operation: Unimplemented action: PutBucketNotificationConfiguration</failure></testcase><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_small_object" time="0.016" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_empty_object" time="0.016" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_binary_data" time="0.016" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_overwrite" time="0.017" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_get_nonexistent_key" time="0.014" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_start" time="0.016"><failure message="botocore.exceptions.FlexibleChecksumError: Expected checksum poTHxg== did not match calculated checksum: 3aRwJA==">tests/test_object_crud.py:48: in test_range_read_start
+    assert resp["Body"].read() == b"01234"
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:244: in read
+    self._validate_checksum()
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:264: in _validate_checksum
+    raise FlexibleChecksumError(error_msg=error_msg)
+E   botocore.exceptions.FlexibleChecksumError: Expected checksum poTHxg== did not match calculated checksum: 3aRwJA==</failure></testcase><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_middle" time="0.016"><failure message="botocore.exceptions.FlexibleChecksumError: Expected checksum poTHxg== did not match calculated checksum: TOtJvA==">tests/test_object_crud.py:53: in test_range_read_middle
+    assert resp["Body"].read() == b"34567"
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:244: in read
+    self._validate_checksum()
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:264: in _validate_checksum
+    raise FlexibleChecksumError(error_msg=error_msg)
+E   botocore.exceptions.FlexibleChecksumError: Expected checksum poTHxg== did not match calculated checksum: TOtJvA==</failure></testcase><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_suffix" time="0.016"><failure message="botocore.exceptions.FlexibleChecksumError: Expected checksum poTHxg== did not match calculated checksum: lv8e9A==">tests/test_object_crud.py:58: in test_range_read_suffix
+    assert resp["Body"].read() == b"789"
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:244: in read
+    self._validate_checksum()
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:264: in _validate_checksum
+    raise FlexibleChecksumError(error_msg=error_msg)
+E   botocore.exceptions.FlexibleChecksumError: Expected checksum poTHxg== did not match calculated checksum: lv8e9A==</failure></testcase><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_to_end" time="0.016"><failure message="botocore.exceptions.FlexibleChecksumError: Expected checksum poTHxg== did not match calculated checksum: lv8e9A==">tests/test_object_crud.py:63: in test_range_read_to_end
+    assert resp["Body"].read() == b"789"
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:244: in read
+    self._validate_checksum()
+.venv/lib/python3.14/site-packages/botocore/httpchecksum.py:264: in _validate_checksum
+    raise FlexibleChecksumError(error_msg=error_msg)
+E   botocore.exceptions.FlexibleChecksumError: Expected checksum poTHxg== did not match calculated checksum: lv8e9A==</failure></testcase><testcase classname="tests.test_object_crud.TestHeadObject" name="test_head_returns_metadata" time="0.016" /><testcase classname="tests.test_object_crud.TestHeadObject" name="test_head_nonexistent" time="0.014" /><testcase classname="tests.test_object_crud.TestDeleteObject" name="test_delete_existing" time="0.015" /><testcase classname="tests.test_object_crud.TestDeleteObject" name="test_delete_nonexistent_is_idempotent" time="0.013" /><testcase classname="tests.test_object_crud.TestDeleteObjects" name="test_bulk_delete" time="0.028" /><testcase classname="tests.test_object_crud.TestDeleteObjects" name="test_bulk_delete_partial_nonexistent" time="0.014" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_same_bucket" time="0.018" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_cross_bucket" time="0.029" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_preserves_content_type" time="0.018" /><testcase classname="tests.test_object_crud.TestContentMD5" name="test_put_with_correct_md5" time="0.015" /><testcase classname="tests.test_object_crud.TestContentMD5" name="test_put_with_wrong_md5_is_rejected" time="0.013" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[simple]" time="0.016" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with spaces]" time="0.016" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with/slashes/nested]" time="0.016" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with.dots.ext]" time="0.015" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with-dashes]" time="0.016" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with_underscores]" time="0.016" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[unicode-\xe9\xe8\xea]" time="0.015" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[deep/nested/path/to/object.txt]" time="0.015" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_empty_bucket" time="0.013" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_returns_all_objects" time="0.025" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix" time="0.020" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix_no_match" time="0.015" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_delimiter" time="0.024" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix_and_delimiter" time="0.023" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_returns_sorted_keys" time="0.022" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_max_keys" time="0.035" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_pagination_complete" time="0.037" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_pagination_over_1000_objects" time="2.467" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_basic" time="0.021" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_with_marker_pagination" time="0.038" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_with_delimiter" time="0.021" /><testcase classname="tests.test_object_listing.TestListObjectMetadata" name="test_list_includes_etag_and_size" time="0.015" /><testcase classname="tests.test_object_lock.TestObjectLockConfiguration" name="test_get_lock_config" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectLockConfiguration operation: Unimplemented action: GetObjectLockConfiguration">tests/test_object_lock.py:15: in test_get_lock_config
+    resp = s3_client.get_object_lock_configuration(Bucket=bucket)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectLockConfiguration operation: Unimplemented action: GetObjectLockConfiguration</failure></testcase><testcase classname="tests.test_object_lock.TestObjectLockConfiguration" name="test_set_default_retention" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLockConfiguration operation: Unimplemented action: PutObjectLockConfiguration">tests/test_object_lock.py:21: in test_set_default_retention
+    s3_client.put_object_lock_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLockConfiguration operation: Unimplemented action: PutObjectLockConfiguration</failure></testcase><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_set_and_get_retention" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention">tests/test_object_lock.py:45: in test_set_and_get_retention
+    s3_client.put_object_retention(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention</failure></testcase><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_cannot_delete_retained_object" time="0.016"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention">tests/test_object_lock.py:63: in test_cannot_delete_retained_object
+    s3_client.put_object_retention(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention</failure></testcase><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_governance_bypass" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention">tests/test_object_lock.py:94: in test_governance_bypass
+    s3_client.put_object_retention(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectRetention operation: Unimplemented action: PutObjectRetention</failure></testcase><testcase classname="tests.test_object_lock.TestLegalHold" name="test_set_and_get_legal_hold" time="0.019"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLegalHold operation: Unimplemented action: PutObjectLegalHold">tests/test_object_lock.py:115: in test_set_and_get_legal_hold
+    s3_client.put_object_legal_hold(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLegalHold operation: Unimplemented action: PutObjectLegalHold</failure></testcase><testcase classname="tests.test_object_lock.TestLegalHold" name="test_remove_legal_hold" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLegalHold operation: Unimplemented action: PutObjectLegalHold">tests/test_object_lock.py:127: in test_remove_legal_hold
+    s3_client.put_object_legal_hold(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLegalHold operation: Unimplemented action: PutObjectLegalHold</failure></testcase><testcase classname="tests.test_object_lock.TestLegalHold" name="test_cannot_delete_with_legal_hold" time="0.016"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLegalHold operation: Unimplemented action: PutObjectLegalHold">tests/test_object_lock.py:145: in test_cannot_delete_with_legal_hold
+    s3_client.put_object_legal_hold(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectLegalHold operation: Unimplemented action: PutObjectLegalHold</failure></testcase><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_put_and_get_tags" time="0.016"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging">tests/test_object_tagging.py:12: in test_put_and_get_tags
+    s3_client.put_object_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging</failure></testcase><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_delete_tags" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging">tests/test_object_tagging.py:26: in test_delete_tags
+    s3_client.put_object_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging</failure></testcase><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_replace_tags" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging">tests/test_object_tagging.py:37: in test_replace_tags
+    s3_client.put_object_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging</failure></testcase><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_max_10_tags" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging">tests/test_object_tagging.py:53: in test_max_10_tags
+    s3_client.put_object_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging</failure></testcase><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_get_tags_no_tags" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectTagging operation: Unimplemented action: GetObjectTagging">tests/test_object_tagging.py:62: in test_get_tags_no_tags
+    resp = s3_client.get_object_tagging(Bucket=bucket, Key="untagged")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectTagging operation: Unimplemented action: GetObjectTagging</failure></testcase><testcase classname="tests.test_object_tagging.TestTagsOnUpload" name="test_tags_via_header" time="0.016"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectTagging operation: Unimplemented action: GetObjectTagging">tests/test_object_tagging.py:72: in test_tags_via_header
+    resp = s3_client.get_object_tagging(Bucket=bucket, Key="tagged-upload")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetObjectTagging operation: Unimplemented action: GetObjectTagging</failure></testcase><testcase classname="tests.test_object_tagging.TestTagsOnCopy" name="test_copy_preserves_tags_by_default" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging">tests/test_object_tagging.py:80: in test_copy_preserves_tags_by_default
+    s3_client.put_object_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging</failure></testcase><testcase classname="tests.test_object_tagging.TestTagsOnCopy" name="test_copy_replace_tags" time="0.017"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging">tests/test_object_tagging.py:96: in test_copy_replace_tags
+    s3_client.put_object_tagging(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutObjectTagging operation: Unimplemented action: PutObjectTagging</failure></testcase><testcase classname="tests.test_presigned.TestPresignedGet" name="test_presigned_get" time="0.019" /><testcase classname="tests.test_presigned.TestPresignedGet" name="test_presigned_get_with_content_type" time="0.019" /><testcase classname="tests.test_presigned.TestPresignedPut" name="test_presigned_put" time="0.019" /><testcase classname="tests.test_presigned.TestPresignedDelete" name="test_presigned_delete" time="0.019" /><testcase classname="tests.test_presigned.TestPresignedExpiration" name="test_expired_url_rejected" time="3.023" /><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_put_and_get_replication" time="0.011"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/test_replication.py:18: in replication_buckets
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_delete_replication" time="0.012"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/test_replication.py:18: in replication_buckets
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_no_replication_returns_error" time="0.015"><failure message="AssertionError: expected error code ReplicationConfigurationNotFoundError, got 'NotImplemented'&#10;assert 'NotImplemented' == 'ReplicationC...NotFoundError'&#10;  &#10;  - ReplicationConfigurationNotFoundError&#10;  + NotImplemented">tests/test_replication.py:94: in test_no_replication_returns_error
+    s3_client.get_bucket_replication(Bucket=bucket)
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the GetBucketReplication operation: Unimplemented action: GetBucketReplication
+
+During handling of the above exception, another exception occurred:
+tests/test_replication.py:101: in test_no_replication_returns_error
+    assert code == "ReplicationConfigurationNotFoundError", (
+E   AssertionError: expected error code ReplicationConfigurationNotFoundError, got 'NotImplemented'
+E   assert 'NotImplemented' == 'ReplicationC...NotFoundError'
+E     
+E     - ReplicationConfigurationNotFoundError
+E     + NotImplemented</failure></testcase><testcase classname="tests.test_sse.TestSSES3" name="test_put_with_sse_s3" time="0.016"><failure message="assert None == 'AES256'&#10; +  where None = &lt;built-in method get of dict object at 0x7ff7511f0d80&gt;('ServerSideEncryption')&#10; +    where &lt;built-in method get of dict object at 0x7ff7511f0d80&gt; = {'AcceptRanges': 'bytes', 'ContentLength': 9, 'ETag': '&quot;5031e9989ae1ab3ba509b7d4220c0ddf&quot;', 'LastModified': datetime.datetime(2026, 2, 17, 22, 58, 59, tzinfo=tzutc()), ...}.get">tests/test_sse.py:29: in test_put_with_sse_s3
+    assert resp.get("ServerSideEncryption") == "AES256"
+E   assert None == 'AES256'
+E    +  where None = &lt;built-in method get of dict object at 0x7ff7511f0d80&gt;('ServerSideEncryption')
+E    +    where &lt;built-in method get of dict object at 0x7ff7511f0d80&gt; = {'AcceptRanges': 'bytes', 'ContentLength': 9, 'ETag': '"5031e9989ae1ab3ba509b7d4220c0ddf"', 'LastModified': datetime.datetime(2026, 2, 17, 22, 58, 59, tzinfo=tzutc()), ...}.get</failure></testcase><testcase classname="tests.test_sse.TestSSES3" name="test_get_sse_s3_transparent" time="0.017" /><testcase classname="tests.test_sse.TestSSES3" name="test_copy_preserves_sse_s3" time="0.018"><failure message="assert None == 'AES256'&#10; +  where None = &lt;built-in method get of dict object at 0x7ff751228bc0&gt;('ServerSideEncryption')&#10; +    where &lt;built-in method get of dict object at 0x7ff751228bc0&gt; = {'AcceptRanges': 'bytes', 'ContentLength': 4, 'ETag': '&quot;8d777f385d3dfec8815d20f7496026dc&quot;', 'LastModified': datetime.datetime(2026, 2, 17, 22, 58, 59, tzinfo=tzutc()), ...}.get">tests/test_sse.py:51: in test_copy_preserves_sse_s3
+    assert resp.get("ServerSideEncryption") == "AES256"
+E   assert None == 'AES256'
+E    +  where None = &lt;built-in method get of dict object at 0x7ff751228bc0&gt;('ServerSideEncryption')
+E    +    where &lt;built-in method get of dict object at 0x7ff751228bc0&gt; = {'AcceptRanges': 'bytes', 'ContentLength': 4, 'ETag': '"8d777f385d3dfec8815d20f7496026dc"', 'LastModified': datetime.datetime(2026, 2, 17, 22, 58, 59, tzinfo=tzutc()), ...}.get</failure></testcase><testcase classname="tests.test_sse.TestDefaultBucketEncryption" name="test_set_default_encryption_aes256" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketEncryption operation: Unimplemented action: PutBucketEncryption">tests/test_sse.py:56: in test_set_default_encryption_aes256
+    s3_client.put_bucket_encryption(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketEncryption operation: Unimplemented action: PutBucketEncryption</failure></testcase><testcase classname="tests.test_sse.TestDefaultBucketEncryption" name="test_delete_bucket_encryption" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketEncryption operation: Unimplemented action: PutBucketEncryption">tests/test_sse.py:71: in test_delete_bucket_encryption
+    s3_client.put_bucket_encryption(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketEncryption operation: Unimplemented action: PutBucketEncryption</failure></testcase><testcase classname="tests.test_sse.TestSSEC" name="test_put_get_with_sse_c" time="0.016" /><testcase classname="tests.test_sse.TestSSEC" name="test_get_sse_c_without_key_fails" time="0.016" /><testcase classname="tests.test_sse.TestSSEC" name="test_get_sse_c_with_wrong_key_fails" time="0.017" /><testcase classname="tests.test_sse.TestSSEC" name="test_head_sse_c_requires_key" time="0.016" /><testcase classname="tests.test_sse.TestSSEC" name="test_copy_sse_c" time="0.019" /><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_put_and_get_tiering" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketIntelligentTieringConfiguration operation: Unimplemented action: PutBucketIntelligentTieringConfiguration">tests/test_tiering.py:25: in test_put_and_get_tiering
+    s3_client.put_bucket_intelligent_tiering_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketIntelligentTieringConfiguration operation: Unimplemented action: PutBucketIntelligentTieringConfiguration</failure></testcase><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_list_tiering_configs" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketIntelligentTieringConfiguration operation: Unimplemented action: PutBucketIntelligentTieringConfiguration">tests/test_tiering.py:45: in test_list_tiering_configs
+    s3_client.put_bucket_intelligent_tiering_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketIntelligentTieringConfiguration operation: Unimplemented action: PutBucketIntelligentTieringConfiguration</failure></testcase><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_delete_tiering" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketIntelligentTieringConfiguration operation: Unimplemented action: PutBucketIntelligentTieringConfiguration">tests/test_tiering.py:65: in test_delete_tiering
+    s3_client.put_bucket_intelligent_tiering_configuration(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketIntelligentTieringConfiguration operation: Unimplemented action: PutBucketIntelligentTieringConfiguration</failure></testcase><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_enable_versioning" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning">tests/test_versioning.py:12: in test_enable_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</failure></testcase><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_suspend_versioning" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning">tests/test_versioning.py:19: in test_suspend_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</failure></testcase><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_versioning_initially_unset" time="0.013" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_put_returns_version_id" time="0.006"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_multiple_versions" time="0.007"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_get_specific_version" time="0.007"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_get_latest_version" time="0.006"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_head_specific_version" time="0.007"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_delete_creates_marker" time="0.006"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_get_after_delete_marker_returns_404" time="0.007"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_delete_specific_version_permanent" time="0.006"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_versions" time="0.007"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_includes_delete_markers" time="0.007"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_versions_with_prefix" time="0.007"><error message="failed on setup with &quot;botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning&quot;">tests/conftest.py:162: in bucket_with_versioning
+    s3_client.put_bucket_versioning(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketVersioning operation: Unimplemented action: PutBucketVersioning</error></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_put_and_get_website_config" time="0.016" /><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_delete_website_config" time="0.015"><failure message="Failed: get_bucket_website succeeded after delete (expected NoSuchWebsiteConfiguration error)">tests/test_website.py:33: in test_delete_website_config
+    pytest.fail(
+E   Failed: get_bucket_website succeeded after delete (expected NoSuchWebsiteConfiguration error)</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_no_website_config_returns_error" time="0.014"><failure message="Failed: get_bucket_website on unconfigured bucket succeeded (expected NoSuchWebsiteConfiguration error)">tests/test_website.py:46: in test_no_website_config_returns_error
+    pytest.fail(
+E   Failed: get_bucket_website on unconfigured bucket succeeded (expected NoSuchWebsiteConfiguration error)</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_website_with_redirect_rules" time="0.015"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketWebsite operation: Unimplemented action: S3 routing rules are not currently implemented in Garage.">tests/test_website.py:57: in test_website_with_redirect_rules
+    s3_client.put_bucket_website(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketWebsite operation: Unimplemented action: S3 routing rules are not currently implemented in Garage.</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_website_redirect_all" time="0.014"><failure message="botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketWebsite operation: Unimplemented action: S3 website redirects are not currently implemented in Garage.">tests/test_website.py:74: in test_website_redirect_all
+    s3_client.put_bucket_website(
+.venv/lib/python3.14/site-packages/botocore/client.py:602: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.14/site-packages/botocore/client.py:1078: in _make_api_call
+    raise error_class(parsed_response, operation_name)
+E   botocore.exceptions.ClientError: An error occurred (NotImplemented) when calling the PutBucketWebsite operation: Unimplemented action: S3 website redirects are not currently implemented in Garage.</failure></testcase></testsuite></testsuites>

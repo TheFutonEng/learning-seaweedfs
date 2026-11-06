@@ -1,0 +1,2682 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="23" skipped="1" tests="207" time="57.166" timestamp="2026-10-22T11:29:51.950738+00:00" hostname="s3-testsuite-runner"><testcase classname="tests.test_acl.TestBucketACL" name="test_get_default_bucket_acl" time="0.104" /><testcase classname="tests.test_acl.TestBucketACL" name="test_put_bucket_acl_private" time="0.065" /><testcase classname="tests.test_acl.TestBucketACL" name="test_put_bucket_acl_public_read" time="0.063" /><testcase classname="tests.test_acl.TestObjectACL" name="test_get_default_object_acl" time="0.240" /><testcase classname="tests.test_acl.TestObjectACL" name="test_put_object_acl_private" time="0.237" /><testcase classname="tests.test_acl.TestObjectACL" name="test_put_object_acl_public_read" time="0.238" /><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_private_on_upload" time="0.236" /><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_public_read_on_upload" time="0.237" /><testcase classname="tests.test_acl.TestCannedACLOnUpload" name="test_bucket_owner_full_control_on_upload" time="0.235" /><testcase classname="tests.test_auth.TestAnonymousAccess" name="test_anonymous_read_with_public_policy" time="0.256" /><testcase classname="tests.test_auth.TestAnonymousAccess" name="test_anonymous_access_denied_without_policy" time="0.233" /><testcase classname="tests.test_auth.TestSTSTemporaryCredentials" name="test_assume_role_basic" time="6.295"><skipped type="pytest.skip" message="STS AssumeRole not supported: An error occurred (Unknown) when calling the AssumeRole operation (reached max retries: 4): Unknown">/suite/tests/test_auth.py:61: STS AssumeRole not supported: An error occurred (Unknown) when calling the AssumeRole operation (reached max retries: 4): Unknown</skipped></testcase><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_and_delete" time="0.010" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_already_exists" time="0.011" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_invalid_name_too_short" time="0.001" /><testcase classname="tests.test_bucket_basic.TestCreateBucket" name="test_create_bucket_invalid_name_uppercase" time="0.001" /><testcase classname="tests.test_bucket_basic.TestDeleteBucket" name="test_delete_nonexistent_bucket" time="0.001" /><testcase classname="tests.test_bucket_basic.TestDeleteBucket" name="test_delete_nonempty_bucket" time="0.233"><failure message="Failed: delete_bucket succeeded on non-empty bucket (expected BucketNotEmpty error)">self = &lt;test_bucket_basic.TestDeleteBucket object at 0x78f21e8fbf90&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-212621f84e7d'
+
+    def test_delete_nonempty_bucket(self, s3_client, bucket):
+        s3_client.put_object(Bucket=bucket, Key="file.txt", Body=b"data")
+        try:
+            s3_client.delete_bucket(Bucket=bucket)
+&gt;           pytest.fail("delete_bucket succeeded on non-empty bucket (expected BucketNotEmpty error)")
+E           Failed: delete_bucket succeeded on non-empty bucket (expected BucketNotEmpty error)
+
+tests/test_bucket_basic.py:49: Failed</failure></testcase><testcase classname="tests.test_bucket_basic.TestHeadBucket" name="test_head_existing" time="0.009" /><testcase classname="tests.test_bucket_basic.TestHeadBucket" name="test_head_nonexistent" time="0.001" /><testcase classname="tests.test_bucket_basic.TestListBuckets" name="test_list_includes_created_bucket" time="0.008" /><testcase classname="tests.test_bucket_basic.TestListBuckets" name="test_list_buckets_has_creation_date" time="0.010" /><testcase classname="tests.test_bucket_basic.TestGetBucketLocation" name="test_get_location" time="0.008" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_put_and_get_policy" time="0.013" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_delete_policy" time="0.015" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_no_policy_returns_error" time="0.009" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyCRUD" name="test_replace_policy" time="0.013" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyEnforcement" name="test_public_read_policy" time="0.235" /><testcase classname="tests.test_bucket_policy.TestBucketPolicyEnforcement" name="test_deny_policy" time="0.238" /><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_put_and_get_tags" time="0.011" /><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_delete_tags" time="0.011" /><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_replace_tags" time="0.009" /><testcase classname="tests.test_bucket_tagging.TestBucketTagging" name="test_no_tags_returns_error" time="0.007" /><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_read_after_put" time="0.236" /><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_head_after_put" time="0.235" /><testcase classname="tests.test_consistency.TestReadAfterWrite" name="test_immediate_list_after_put" time="0.236" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_get_after_delete" time="0.233" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_head_after_delete" time="0.233" /><testcase classname="tests.test_consistency.TestReadAfterDelete" name="test_immediate_list_after_delete" time="0.233" /><testcase classname="tests.test_consistency.TestReadAfterOverwrite" name="test_immediate_read_after_overwrite" time="0.237" /><testcase classname="tests.test_consistency.TestConcurrentWrites" name="test_concurrent_puts_all_succeed" time="1.046" /><testcase classname="tests.test_consistency.TestConcurrentWrites" name="test_concurrent_puts_to_different_keys" time="1.067" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_put_and_get_cors" time="0.010" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_delete_cors" time="0.013" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_no_cors_returns_error" time="0.008" /><testcase classname="tests.test_cors.TestCORSConfigCRUD" name="test_multiple_cors_rules" time="0.008" /><testcase classname="tests.test_cors.TestCORSPreflight" name="test_options_preflight" time="0.009" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_bucket" time="0.002" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_key" time="0.007" /><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_bucket_not_empty" time="0.231"><failure message="Failed: delete_bucket succeeded on non-empty bucket (expected BucketNotEmpty error)">self = &lt;test_errors.TestStandardErrorCodes object at 0x78f21e8f2950&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-8bfa7a349903'
+
+    def test_bucket_not_empty(self, s3_client, bucket):
+        s3_client.put_object(Bucket=bucket, Key="blocker", Body=b"x")
+        try:
+            s3_client.delete_bucket(Bucket=bucket)
+&gt;           pytest.fail("delete_bucket succeeded on non-empty bucket (expected BucketNotEmpty error)")
+E           Failed: delete_bucket succeeded on non-empty bucket (expected BucketNotEmpty error)
+
+tests/test_errors.py:27: Failed</failure></testcase><testcase classname="tests.test_errors.TestStandardErrorCodes" name="test_no_such_upload" time="0.008" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_404_for_missing_object" time="0.007" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_404_for_missing_bucket" time="0.001" /><testcase classname="tests.test_errors.TestHTTPStatusCodes" name="test_409_bucket_not_empty" time="0.231"><failure message="Failed: delete_bucket succeeded on non-empty bucket (expected HTTP 409)">self = &lt;test_errors.TestHTTPStatusCodes object at 0x78f21e902650&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-8042bd7ba37d'
+
+    def test_409_bucket_not_empty(self, s3_client, bucket):
+        s3_client.put_object(Bucket=bucket, Key="x", Body=b"x")
+        try:
+            s3_client.delete_bucket(Bucket=bucket)
+&gt;           pytest.fail("delete_bucket succeeded on non-empty bucket (expected HTTP 409)")
+E           Failed: delete_bucket succeeded on non-empty bucket (expected HTTP 409)
+
+tests/test_errors.py:57: Failed</failure></testcase><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_match_success" time="0.235" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_match_failure" time="0.233" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_none_match_returns_304" time="0.233" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_modified_since" time="0.237" /><testcase classname="tests.test_errors.TestConditionalRequests" name="test_if_unmodified_since_failure" time="0.232" /><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_is_md5_for_simple_put" time="0.236" /><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_consistent_across_get_and_head" time="0.232" /><testcase classname="tests.test_integrity.TestETagSimpleObject" name="test_etag_changes_on_overwrite" time="0.234" /><testcase classname="tests.test_integrity.TestETagMultipart" name="test_multipart_etag_format" time="1.114" /><testcase classname="tests.test_integrity.TestContentMD5Validation" name="test_correct_md5_accepted" time="0.236" /><testcase classname="tests.test_integrity.TestContentMD5Validation" name="test_wrong_md5_rejected" time="0.232" /><testcase classname="tests.test_integrity.TestETagOnCopy" name="test_copy_produces_new_etag" time="0.239" /><testcase classname="tests.test_integrity.TestETagOnCopy" name="test_etag_in_list_matches_head" time="0.234" /><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_put_and_get_inventory" time="0.016"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketInventoryConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_inventory.TestInventoryConfigCRUD object at 0x78f21e8da790&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-84f44a786e4e'
+
+    def test_put_and_get_inventory(self, s3_client, bucket):
+        dest_bucket = _generate_bucket_name()
+        s3_client.create_bucket(Bucket=dest_bucket)
+        try:
+            config = {
+                "Id": "weekly-inventory",
+                "IsEnabled": True,
+                "Destination": {
+                    "S3BucketDestination": {
+                        "Bucket": f"arn:aws:s3:::{dest_bucket}",
+                        "Format": "CSV",
+                    },
+                },
+                "Schedule": {"Frequency": "Weekly"},
+                "IncludedObjectVersions": "Current",
+            }
+&gt;           s3_client.put_bucket_inventory_configuration(
+                Bucket=bucket, Id="weekly-inventory",
+                InventoryConfiguration=config,
+            )
+
+tests/test_inventory.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketInventoryConfiguration'
+api_params = {'Bucket': 's3-testsuite-84f44a786e4e', 'Id': 'weekly-inventory', 'InventoryConfiguration': {'Id': 'weekly-inventory',...on': {'Bucket': 'arn:aws:s3:::s3-testsuite-f54e648870e8', 'Format': 'CSV'}}, 'Schedule': {'Frequency': 'Weekly'}, ...}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketInventoryConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_list_inventory_configs" time="0.014"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketInventoryConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_inventory.TestInventoryConfigCRUD object at 0x78f21e8d8950&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-ede8e5e91118'
+
+    def test_list_inventory_configs(self, s3_client, bucket):
+        dest_bucket = _generate_bucket_name()
+        s3_client.create_bucket(Bucket=dest_bucket)
+        try:
+            for i in range(2):
+                config = {
+                    "Id": f"inv-{i}",
+                    "IsEnabled": True,
+                    "Destination": {
+                        "S3BucketDestination": {
+                            "Bucket": f"arn:aws:s3:::{dest_bucket}",
+                            "Format": "CSV",
+                        },
+                    },
+                    "Schedule": {"Frequency": "Weekly"},
+                    "IncludedObjectVersions": "Current",
+                }
+&gt;               s3_client.put_bucket_inventory_configuration(
+                    Bucket=bucket, Id=f"inv-{i}",
+                    InventoryConfiguration=config,
+                )
+
+tests/test_inventory.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketInventoryConfiguration'
+api_params = {'Bucket': 's3-testsuite-ede8e5e91118', 'Id': 'inv-0', 'InventoryConfiguration': {'Id': 'inv-0', 'IsEnabled': True, 'D...on': {'Bucket': 'arn:aws:s3:::s3-testsuite-ba31058472d4', 'Format': 'CSV'}}, 'Schedule': {'Frequency': 'Weekly'}, ...}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketInventoryConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_inventory.TestInventoryConfigCRUD" name="test_delete_inventory" time="0.014"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketInventoryConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_inventory.TestInventoryConfigCRUD object at 0x78f21e8daad0&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-30560aafc737'
+
+    def test_delete_inventory(self, s3_client, bucket):
+        dest_bucket = _generate_bucket_name()
+        s3_client.create_bucket(Bucket=dest_bucket)
+        try:
+            config = {
+                "Id": "to-delete",
+                "IsEnabled": True,
+                "Destination": {
+                    "S3BucketDestination": {
+                        "Bucket": f"arn:aws:s3:::{dest_bucket}",
+                        "Format": "CSV",
+                    },
+                },
+                "Schedule": {"Frequency": "Weekly"},
+                "IncludedObjectVersions": "Current",
+            }
+&gt;           s3_client.put_bucket_inventory_configuration(
+                Bucket=bucket, Id="to-delete",
+                InventoryConfiguration=config,
+            )
+
+tests/test_inventory.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketInventoryConfiguration'
+api_params = {'Bucket': 's3-testsuite-30560aafc737', 'Id': 'to-delete', 'InventoryConfiguration': {'Id': 'to-delete', 'IsEnabled': ...on': {'Bucket': 'arn:aws:s3:::s3-testsuite-582ec6a8cd46', 'Format': 'CSV'}}, 'Schedule': {'Frequency': 'Weekly'}, ...}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketInventoryConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_10mb" time="0.278" /><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_50mb" time="0.319" /><testcase classname="tests.test_large_objects.TestSinglePutSizes" name="test_put_50mb_integrity" time="0.505" /><testcase classname="tests.test_large_objects.TestMultipartSizes" name="test_multipart_10_parts" time="1.352" /><testcase classname="tests.test_large_objects.TestMultipartSizes" name="test_multipart_varying_part_sizes" time="1.153" /><testcase classname="tests.test_large_objects.TestRangeReadLargeObject" name="test_range_read_middle_of_large_object" time="0.280" /><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_put_and_get_lifecycle" time="0.010" /><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_delete_lifecycle" time="0.010" /><testcase classname="tests.test_lifecycle.TestLifecycleConfigCRUD" name="test_no_lifecycle_returns_error" time="0.007" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_expiration_by_days" time="0.008" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_abort_incomplete_multipart" time="0.008" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_multiple_rules" time="0.008" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_disabled_rule" time="0.008" /><testcase classname="tests.test_lifecycle.TestLifecycleRuleTypes" name="test_filter_by_tag" time="0.008" /><testcase classname="tests.test_logging.TestBucketLogging" name="test_get_logging_default_empty" time="0.007" /><testcase classname="tests.test_logging.TestBucketLogging" name="test_put_and_get_logging" time="0.014"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketLogging operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_logging.TestBucketLogging object at 0x78f21e77b250&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-578e172eb281'
+
+    def test_put_and_get_logging(self, s3_client, bucket):
+        # Create a target bucket for logs
+        log_bucket = _generate_bucket_name()
+        s3_client.create_bucket(Bucket=log_bucket)
+        try:
+&gt;           s3_client.put_bucket_logging(
+                Bucket=bucket,
+                BucketLoggingStatus={
+                    "LoggingEnabled": {
+                        "TargetBucket": log_bucket,
+                        "TargetPrefix": "logs/",
+                    },
+                },
+            )
+
+tests/test_logging.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketLogging'
+api_params = {'Bucket': 's3-testsuite-578e172eb281', 'BucketLoggingStatus': {'LoggingEnabled': {'TargetBucket': 's3-testsuite-585e36af6a2e', 'TargetPrefix': 'logs/'}}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketLogging operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;test_logging.TestBucketLogging object at 0x78f21e77b250&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-578e172eb281'
+
+    def test_put_and_get_logging(self, s3_client, bucket):
+        # Create a target bucket for logs
+        log_bucket = _generate_bucket_name()
+        s3_client.create_bucket(Bucket=log_bucket)
+        try:
+            s3_client.put_bucket_logging(
+                Bucket=bucket,
+                BucketLoggingStatus={
+                    "LoggingEnabled": {
+                        "TargetBucket": log_bucket,
+                        "TargetPrefix": "logs/",
+                    },
+                },
+            )
+            resp = s3_client.get_bucket_logging(Bucket=bucket)
+            assert resp["LoggingEnabled"]["TargetBucket"] == log_bucket
+            assert resp["LoggingEnabled"]["TargetPrefix"] == "logs/"
+        finally:
+            # Disable logging before cleanup
+&gt;           s3_client.put_bucket_logging(
+                Bucket=bucket,
+                BucketLoggingStatus={},
+            )
+
+tests/test_logging.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketLogging'
+api_params = {'Bucket': 's3-testsuite-578e172eb281', 'BucketLoggingStatus': {}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketLogging operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_logging.TestBucketLogging" name="test_disable_logging" time="0.017"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketLogging operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_logging.TestBucketLogging object at 0x78f21e779c90&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-797d8e99b49d'
+
+    def test_disable_logging(self, s3_client, bucket):
+        log_bucket = _generate_bucket_name()
+        s3_client.create_bucket(Bucket=log_bucket)
+        try:
+&gt;           s3_client.put_bucket_logging(
+                Bucket=bucket,
+                BucketLoggingStatus={
+                    "LoggingEnabled": {
+                        "TargetBucket": log_bucket,
+                        "TargetPrefix": "logs/",
+                    },
+                },
+            )
+
+tests/test_logging.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketLogging'
+api_params = {'Bucket': 's3-testsuite-797d8e99b49d', 'BucketLoggingStatus': {'LoggingEnabled': {'TargetBucket': 's3-testsuite-23d1b2905dcb', 'TargetPrefix': 'logs/'}}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketLogging operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_metadata.TestContentType" name="test_set_and_retrieve_content_type" time="0.234" /><testcase classname="tests.test_metadata.TestContentType" name="test_default_content_type" time="0.234" /><testcase classname="tests.test_metadata.TestContentDisposition" name="test_content_disposition" time="0.234" /><testcase classname="tests.test_metadata.TestContentEncoding" name="test_content_encoding" time="0.237" /><testcase classname="tests.test_metadata.TestCacheControl" name="test_cache_control" time="0.232" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_custom_metadata" time="0.235" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_metadata_preserved_on_get" time="0.234" /><testcase classname="tests.test_metadata.TestUserMetadata" name="test_empty_metadata_value" time="0.235"><failure message="KeyError: 'empty'">self = &lt;test_metadata.TestUserMetadata object at 0x78f21e950350&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-d0e4642ef418'
+
+    def test_empty_metadata_value(self, s3_client, bucket):
+        s3_client.put_object(
+            Bucket=bucket, Key="meta", Body=b"x",
+            Metadata={"empty": ""},
+        )
+        resp = s3_client.head_object(Bucket=bucket, Key="meta")
+&gt;       assert resp["Metadata"]["empty"] == ""
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'empty'
+
+tests/test_metadata.py:77: KeyError</failure></testcase><testcase classname="tests.test_metadata.TestMetadataOnCopy" name="test_copy_preserves_metadata" time="0.241" /><testcase classname="tests.test_metadata.TestMetadataOnCopy" name="test_copy_replace_metadata" time="0.239" /><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_create_complete_multipart" time="1.092" /><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_create_multipart_with_content_type" time="1.059" /><testcase classname="tests.test_multipart.TestMultipartBasic" name="test_complete_multipart_data_integrity" time="1.181" /><testcase classname="tests.test_multipart.TestMultipartSmallLastPart" name="test_last_part_smaller_than_5mb" time="1.060" /><testcase classname="tests.test_multipart.TestMultipartAbort" name="test_abort_multipart" time="1.054" /><testcase classname="tests.test_multipart.TestListMultipartUploads" name="test_list_in_progress_uploads" time="0.012" /><testcase classname="tests.test_multipart.TestListMultipartUploads" name="test_list_empty_after_abort" time="0.013" /><testcase classname="tests.test_multipart.TestListParts" name="test_list_uploaded_parts" time="1.127" /><testcase classname="tests.test_multipart.TestUploadPartCopy" name="test_upload_part_copy" time="1.067" /><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_get_empty_notification_config" time="0.010" /><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_put_and_get_notification_config" time="0.011"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketNotificationConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_notifications.TestNotificationConfigCRUD object at 0x78f21e77add0&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-d73cdb06098a'
+
+    def test_put_and_get_notification_config(self, s3_client, bucket):
+        """Set a notification config — tests config acceptance, not event delivery.
+    
+        AWS validates that the destination ARN exists, so this may fail with
+        InvalidArgument on AWS if no real SNS topic is configured.
+        """
+        config = {
+            "TopicConfigurations": [{
+                "Id": "test-topic",
+                "TopicArn": "arn:aws:sns:us-east-1:000000000000:s3-test-topic",
+                "Events": ["s3:ObjectCreated:*"],
+            }],
+        }
+        try:
+&gt;           s3_client.put_bucket_notification_configuration(
+                Bucket=bucket,
+                NotificationConfiguration=config,
+            )
+
+tests/test_notifications.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketNotificationConfiguration'
+api_params = {'Bucket': 's3-testsuite-d73cdb06098a', 'NotificationConfiguration': {'TopicConfigurations': [{'Id': 'test-topic', 'TopicArn': 'arn:aws:sns:us-east-1:000000000000:s3-test-topic', 'Events': ['s3:ObjectCreated:*']}]}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketNotificationConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_notifications.TestNotificationConfigCRUD" name="test_clear_notification_config" time="0.009"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketNotificationConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_notifications.TestNotificationConfigCRUD object at 0x78f21e77a850&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-7c1a5a9787df'
+
+    def test_clear_notification_config(self, s3_client, bucket):
+        """Setting empty config should clear all notifications."""
+&gt;       s3_client.put_bucket_notification_configuration(
+            Bucket=bucket,
+            NotificationConfiguration={},
+        )
+
+tests/test_notifications.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketNotificationConfiguration'
+api_params = {'Bucket': 's3-testsuite-7c1a5a9787df', 'NotificationConfiguration': {}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketNotificationConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_small_object" time="0.235" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_empty_object" time="0.012" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_get_binary_data" time="0.236" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_put_overwrite" time="0.236" /><testcase classname="tests.test_object_crud.TestPutAndGetObject" name="test_get_nonexistent_key" time="0.008" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_start" time="0.236" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_middle" time="0.233" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_suffix" time="0.231" /><testcase classname="tests.test_object_crud.TestRangeGet" name="test_range_read_to_end" time="0.234" /><testcase classname="tests.test_object_crud.TestHeadObject" name="test_head_returns_metadata" time="0.235" /><testcase classname="tests.test_object_crud.TestHeadObject" name="test_head_nonexistent" time="0.009" /><testcase classname="tests.test_object_crud.TestDeleteObject" name="test_delete_existing" time="0.234" /><testcase classname="tests.test_object_crud.TestDeleteObject" name="test_delete_nonexistent_is_idempotent" time="0.008" /><testcase classname="tests.test_object_crud.TestDeleteObjects" name="test_bulk_delete" time="0.259" /><testcase classname="tests.test_object_crud.TestDeleteObjects" name="test_bulk_delete_partial_nonexistent" time="0.234" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_same_bucket" time="0.240" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_cross_bucket" time="0.467" /><testcase classname="tests.test_object_crud.TestCopyObject" name="test_copy_preserves_content_type" time="0.239" /><testcase classname="tests.test_object_crud.TestContentMD5" name="test_put_with_correct_md5" time="0.235" /><testcase classname="tests.test_object_crud.TestContentMD5" name="test_put_with_wrong_md5_is_rejected" time="0.233" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[simple]" time="0.234" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with spaces]" time="0.236" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with/slashes/nested]" time="0.236" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with.dots.ext]" time="0.234" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with-dashes]" time="0.232" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[with_underscores]" time="0.232" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[unicode-\xe9\xe8\xea]" time="0.234" /><testcase classname="tests.test_object_crud.TestSpecialKeyNames" name="test_special_key_roundtrip[deep/nested/path/to/object.txt]" time="0.237" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_empty_bucket" time="0.008" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_returns_all_objects" time="0.248" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix" time="0.241" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix_no_match" time="0.237" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_delimiter" time="0.247" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_with_prefix_and_delimiter" time="0.240" /><testcase classname="tests.test_object_listing.TestListObjectsV2" name="test_list_returns_sorted_keys" time="0.241" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_max_keys" time="0.261" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_pagination_complete" time="0.264" /><testcase classname="tests.test_object_listing.TestListObjectsV2Pagination" name="test_pagination_over_1000_objects" time="2.939" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_basic" time="0.246" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_with_marker_pagination" time="0.263" /><testcase classname="tests.test_object_listing.TestListObjectsV1" name="test_list_v1_with_delimiter" time="0.242" /><testcase classname="tests.test_object_listing.TestListObjectMetadata" name="test_list_includes_etag_and_size" time="0.238" /><testcase classname="tests.test_object_lock.TestObjectLockConfiguration" name="test_get_lock_config" time="0.009" /><testcase classname="tests.test_object_lock.TestObjectLockConfiguration" name="test_set_default_retention" time="0.010" /><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_set_and_get_retention" time="0.218" /><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_cannot_delete_retained_object" time="0.216" /><testcase classname="tests.test_object_lock.TestObjectRetention" name="test_governance_bypass" time="0.233" /><testcase classname="tests.test_object_lock.TestLegalHold" name="test_set_and_get_legal_hold" time="0.216" /><testcase classname="tests.test_object_lock.TestLegalHold" name="test_remove_legal_hold" time="0.237" /><testcase classname="tests.test_object_lock.TestLegalHold" name="test_cannot_delete_with_legal_hold" time="0.217" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_put_and_get_tags" time="0.235" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_delete_tags" time="0.235" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_replace_tags" time="0.235" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_max_10_tags" time="0.235" /><testcase classname="tests.test_object_tagging.TestObjectTaggingCRUD" name="test_get_tags_no_tags" time="0.233" /><testcase classname="tests.test_object_tagging.TestTagsOnUpload" name="test_tags_via_header" time="0.236" /><testcase classname="tests.test_object_tagging.TestTagsOnCopy" name="test_copy_preserves_tags_by_default" time="0.238" /><testcase classname="tests.test_object_tagging.TestTagsOnCopy" name="test_copy_replace_tags" time="0.238" /><testcase classname="tests.test_presigned.TestPresignedGet" name="test_presigned_get" time="0.238" /><testcase classname="tests.test_presigned.TestPresignedGet" name="test_presigned_get_with_content_type" time="0.237" /><testcase classname="tests.test_presigned.TestPresignedPut" name="test_presigned_put" time="0.238" /><testcase classname="tests.test_presigned.TestPresignedDelete" name="test_presigned_delete" time="0.237" /><testcase classname="tests.test_presigned.TestPresignedExpiration" name="test_expired_url_rejected" time="3.241" /><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_put_and_get_replication" time="0.021"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketReplication operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_replication.TestReplicationConfigCRUD object at 0x78f21e951f10&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+replication_buckets = ('s3-testsuite-55861be911b8', 's3-testsuite-57d73994c43c')
+
+    def test_put_and_get_replication(self, s3_client, replication_buckets):
+        """Replication requires versioning on both source and destination."""
+        src, dst = replication_buckets
+        config = {
+            "Role": "arn:aws:iam::000000000000:role/replication",
+            "Rules": [{
+                "ID": "replicate-all",
+                "Status": "Enabled",
+                "Prefix": "",
+                "Destination": {
+                    "Bucket": f"arn:aws:s3:::{dst}",
+                },
+            }],
+        }
+        try:
+&gt;           s3_client.put_bucket_replication(
+                Bucket=src, ReplicationConfiguration=config,
+            )
+
+tests/test_replication.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketReplication'
+api_params = {'Bucket': 's3-testsuite-55861be911b8', 'ReplicationConfiguration': {'Role': 'arn:aws:iam::000000000000:role/replicati...licate-all', 'Status': 'Enabled', 'Prefix': '', 'Destination': {'Bucket': 'arn:aws:s3:::s3-testsuite-57d73994c43c'}}]}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketReplication operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_delete_replication" time="0.018"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketReplication operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_replication.TestReplicationConfigCRUD object at 0x78f21e7eedd0&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+replication_buckets = ('s3-testsuite-940cbd9625be', 's3-testsuite-5f7e2b164f36')
+
+    def test_delete_replication(self, s3_client, replication_buckets):
+        src, dst = replication_buckets
+        config = {
+            "Role": "arn:aws:iam::000000000000:role/replication",
+            "Rules": [{
+                "ID": "temp",
+                "Status": "Enabled",
+                "Prefix": "",
+                "Destination": {
+                    "Bucket": f"arn:aws:s3:::{dst}",
+                },
+            }],
+        }
+        try:
+&gt;           s3_client.put_bucket_replication(
+                Bucket=src, ReplicationConfiguration=config,
+            )
+
+tests/test_replication.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketReplication'
+api_params = {'Bucket': 's3-testsuite-940cbd9625be', 'ReplicationConfiguration': {'Role': 'arn:aws:iam::000000000000:role/replicati...ID': 'temp', 'Status': 'Enabled', 'Prefix': '', 'Destination': {'Bucket': 'arn:aws:s3:::s3-testsuite-5f7e2b164f36'}}]}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketReplication operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_replication.TestReplicationConfigCRUD" name="test_no_replication_returns_error" time="0.007" /><testcase classname="tests.test_sse.TestSSES3" name="test_put_with_sse_s3" time="0.671"><failure message="botocore.exceptions.ClientError: An error occurred (InternalError) when calling the PutObject operation (reached max retries: 1): We encountered an internal error, please try again.">self = &lt;test_sse.TestSSES3 object at 0x78f21e77bf50&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-383cca31bc38'
+
+    def test_put_with_sse_s3(self, s3_client, bucket):
+&gt;       s3_client.put_object(
+            Bucket=bucket, Key="sse-s3", Body=b"encrypted",
+            ServerSideEncryption="AES256",
+        )
+
+tests/test_sse.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutObject'
+api_params = {'Bucket': 's3-testsuite-383cca31bc38', 'Key': 'sse-s3', 'Body': &lt;_io.BytesIO object at 0x78f21c4eeac0&gt;, 'ServerSideEncryption': 'AES256'}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.exceptions.ClientError: An error occurred (InternalError) when calling the PutObject operation (reached max retries: 1): We encountered an internal error, please try again.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: ClientError</failure></testcase><testcase classname="tests.test_sse.TestSSES3" name="test_get_sse_s3_transparent" time="0.647"><failure message="botocore.exceptions.ClientError: An error occurred (InternalError) when calling the PutObject operation (reached max retries: 1): We encountered an internal error, please try again.">self = &lt;test_sse.TestSSES3 object at 0x78f21e77bd10&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-1eee6f1d8797'
+
+    def test_get_sse_s3_transparent(self, s3_client, bucket):
+        body = b"encrypted data"
+&gt;       s3_client.put_object(
+            Bucket=bucket, Key="sse-s3", Body=body,
+            ServerSideEncryption="AES256",
+        )
+
+tests/test_sse.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutObject'
+api_params = {'Bucket': 's3-testsuite-1eee6f1d8797', 'Key': 'sse-s3', 'Body': &lt;_io.BytesIO object at 0x78f21d44bbf0&gt;, 'ServerSideEncryption': 'AES256'}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.exceptions.ClientError: An error occurred (InternalError) when calling the PutObject operation (reached max retries: 1): We encountered an internal error, please try again.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: ClientError</failure></testcase><testcase classname="tests.test_sse.TestSSES3" name="test_copy_preserves_sse_s3" time="0.460"><failure message="botocore.exceptions.ClientError: An error occurred (InternalError) when calling the PutObject operation (reached max retries: 1): We encountered an internal error, please try again.">self = &lt;test_sse.TestSSES3 object at 0x78f21e778290&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-e01795e264be'
+
+    def test_copy_preserves_sse_s3(self, s3_client, bucket):
+&gt;       s3_client.put_object(
+            Bucket=bucket, Key="sse-src", Body=b"data",
+            ServerSideEncryption="AES256",
+        )
+
+tests/test_sse.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutObject'
+api_params = {'Bucket': 's3-testsuite-e01795e264be', 'Key': 'sse-src', 'Body': &lt;_io.BytesIO object at 0x78f21d448630&gt;, 'ServerSideEncryption': 'AES256'}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.exceptions.ClientError: An error occurred (InternalError) when calling the PutObject operation (reached max retries: 1): We encountered an internal error, please try again.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: ClientError</failure></testcase><testcase classname="tests.test_sse.TestDefaultBucketEncryption" name="test_set_default_encryption_aes256" time="0.009" /><testcase classname="tests.test_sse.TestDefaultBucketEncryption" name="test_delete_bucket_encryption" time="0.010" /><testcase classname="tests.test_sse.TestSSEC" name="test_put_get_with_sse_c" time="0.233" /><testcase classname="tests.test_sse.TestSSEC" name="test_get_sse_c_without_key_fails" time="0.234" /><testcase classname="tests.test_sse.TestSSEC" name="test_get_sse_c_with_wrong_key_fails" time="0.234" /><testcase classname="tests.test_sse.TestSSEC" name="test_head_sse_c_requires_key" time="0.235" /><testcase classname="tests.test_sse.TestSSEC" name="test_copy_sse_c" time="0.241" /><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_put_and_get_tiering" time="0.011"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketIntelligentTieringConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_tiering.TestTieringConfigCRUD object at 0x78f21e779150&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-7379bf2cc6c8'
+
+    def test_put_and_get_tiering(self, s3_client, bucket):
+        config = {
+            "Id": "auto-tier",
+            "Status": "Enabled",
+            "Tierings": [
+                {
+                    "Days": 90,
+                    "AccessTier": "ARCHIVE_ACCESS",
+                },
+                {
+                    "Days": 180,
+                    "AccessTier": "DEEP_ARCHIVE_ACCESS",
+                },
+            ],
+        }
+&gt;       s3_client.put_bucket_intelligent_tiering_configuration(
+            Bucket=bucket, Id="auto-tier",
+            IntelligentTieringConfiguration=config,
+        )
+
+tests/test_tiering.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketIntelligentTieringConfiguration'
+api_params = {'Bucket': 's3-testsuite-7379bf2cc6c8', 'Id': 'auto-tier', 'IntelligentTieringConfiguration': {'Id': 'auto-tier', 'Sta...bled', 'Tierings': [{'Days': 90, 'AccessTier': 'ARCHIVE_ACCESS'}, {'Days': 180, 'AccessTier': 'DEEP_ARCHIVE_ACCESS'}]}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketIntelligentTieringConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_list_tiering_configs" time="0.009"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketIntelligentTieringConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_tiering.TestTieringConfigCRUD object at 0x78f21e8b6e10&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-a4cf8db16e0d'
+
+    def test_list_tiering_configs(self, s3_client, bucket):
+        for i in range(2):
+            config = {
+                "Id": f"tier-{i}",
+                "Status": "Enabled",
+                "Tierings": [{
+                    "Days": 90,
+                    "AccessTier": "ARCHIVE_ACCESS",
+                }],
+            }
+&gt;           s3_client.put_bucket_intelligent_tiering_configuration(
+                Bucket=bucket, Id=f"tier-{i}",
+                IntelligentTieringConfiguration=config,
+            )
+
+tests/test_tiering.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketIntelligentTieringConfiguration'
+api_params = {'Bucket': 's3-testsuite-a4cf8db16e0d', 'Id': 'tier-0', 'IntelligentTieringConfiguration': {'Id': 'tier-0', 'Status': 'Enabled', 'Tierings': [{'Days': 90, 'AccessTier': 'ARCHIVE_ACCESS'}]}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketIntelligentTieringConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_tiering.TestTieringConfigCRUD" name="test_delete_tiering" time="0.010"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketIntelligentTieringConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_tiering.TestTieringConfigCRUD object at 0x78f21e80c390&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-353002c37d2b'
+
+    def test_delete_tiering(self, s3_client, bucket):
+        config = {
+            "Id": "to-delete",
+            "Status": "Enabled",
+            "Tierings": [{
+                "Days": 90,
+                "AccessTier": "ARCHIVE_ACCESS",
+            }],
+        }
+&gt;       s3_client.put_bucket_intelligent_tiering_configuration(
+            Bucket=bucket, Id="to-delete",
+            IntelligentTieringConfiguration=config,
+        )
+
+tests/test_tiering.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketIntelligentTieringConfiguration'
+api_params = {'Bucket': 's3-testsuite-353002c37d2b', 'Id': 'to-delete', 'IntelligentTieringConfiguration': {'Id': 'to-delete', 'Status': 'Enabled', 'Tierings': [{'Days': 90, 'AccessTier': 'ARCHIVE_ACCESS'}]}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketIntelligentTieringConfiguration operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_enable_versioning" time="0.010" /><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_suspend_versioning" time="0.011" /><testcase classname="tests.test_versioning.TestVersioningConfig" name="test_versioning_initially_unset" time="0.008" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_put_returns_version_id" time="0.236" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_multiple_versions" time="0.241" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_get_specific_version" time="0.242" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_get_latest_version" time="0.241" /><testcase classname="tests.test_versioning.TestVersionedObjects" name="test_head_specific_version" time="0.244" /><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_delete_creates_marker" time="0.240" /><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_get_after_delete_marker_returns_404" time="0.243" /><testcase classname="tests.test_versioning.TestDeleteMarkers" name="test_delete_specific_version_permanent" time="0.245" /><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_versions" time="0.242" /><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_includes_delete_markers" time="0.244" /><testcase classname="tests.test_versioning.TestListObjectVersions" name="test_list_versions_with_prefix" time="0.240" /><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_put_and_get_website_config" time="0.010"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketWebsite operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_website.TestWebsiteConfigCRUD object at 0x78f21e7be050&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-bcf2762d4c7a'
+
+    def test_put_and_get_website_config(self, s3_client, bucket):
+&gt;       s3_client.put_bucket_website(
+            Bucket=bucket,
+            WebsiteConfiguration={
+                "IndexDocument": {"Suffix": "index.html"},
+                "ErrorDocument": {"Key": "error.html"},
+            },
+        )
+
+tests/test_website.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketWebsite'
+api_params = {'Bucket': 's3-testsuite-bcf2762d4c7a', 'WebsiteConfiguration': {'IndexDocument': {'Suffix': 'index.html'}, 'ErrorDocument': {'Key': 'error.html'}}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketWebsite operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_delete_website_config" time="0.008"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketWebsite operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_website.TestWebsiteConfigCRUD object at 0x78f21e7bfb10&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-a47178d63c9c'
+
+    def test_delete_website_config(self, s3_client, bucket):
+&gt;       s3_client.put_bucket_website(
+            Bucket=bucket,
+            WebsiteConfiguration={
+                "IndexDocument": {"Suffix": "index.html"},
+            },
+        )
+
+tests/test_website.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketWebsite'
+api_params = {'Bucket': 's3-testsuite-a47178d63c9c', 'WebsiteConfiguration': {'IndexDocument': {'Suffix': 'index.html'}}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketWebsite operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_no_website_config_returns_error" time="0.007" /><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_website_with_redirect_rules" time="0.009"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketWebsite operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_website.TestWebsiteConfigCRUD object at 0x78f21e7bcf50&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-9a3fdaae2c84'
+
+    def test_website_with_redirect_rules(self, s3_client, bucket):
+&gt;       s3_client.put_bucket_website(
+            Bucket=bucket,
+            WebsiteConfiguration={
+                "IndexDocument": {"Suffix": "index.html"},
+                "RoutingRules": [{
+                    "Condition": {"KeyPrefixEquals": "docs/"},
+                    "Redirect": {
+                        "ReplaceKeyPrefixWith": "documents/",
+                    },
+                }],
+            },
+        )
+
+tests/test_website.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketWebsite'
+api_params = {'Bucket': 's3-testsuite-9a3fdaae2c84', 'WebsiteConfiguration': {'IndexDocument': {'Suffix': 'index.html'}, 'RoutingRules': [{'Condition': {'KeyPrefixEquals': 'docs/'}, 'Redirect': {'ReplaceKeyPrefixWith': 'documents/'}}]}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketWebsite operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase><testcase classname="tests.test_website.TestWebsiteConfigCRUD" name="test_website_redirect_all" time="0.010"><failure message="botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketWebsite operation: Your previous request to create the named bucket succeeded and you already own it.">self = &lt;test_website.TestWebsiteConfigCRUD object at 0x78f21e7bf710&gt;
+s3_client = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+bucket = 's3-testsuite-3924284c02e8'
+
+    def test_website_redirect_all(self, s3_client, bucket):
+&gt;       s3_client.put_bucket_website(
+            Bucket=bucket,
+            WebsiteConfiguration={
+                "RedirectAllRequestsTo": {
+                    "HostName": "example.com",
+                    "Protocol": "https",
+                },
+            },
+        )
+
+tests/test_website.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.11/site-packages/botocore/client.py:606: in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.11/site-packages/botocore/context.py:123: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.S3 object at 0x78f21e7a18d0&gt;
+operation_name = 'PutBucketWebsite'
+api_params = {'Bucket': 's3-testsuite-3924284c02e8', 'WebsiteConfiguration': {'RedirectAllRequestsTo': {'HostName': 'example.com', 'Protocol': 'https'}}}
+
+    @with_current_context()
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            'API_CALL',
+            {
+                'service': service_name,
+                'operation': operation_name,
+                'params': api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                'Warning: %s.%s() is deprecated', service_name, operation_name
+            )
+        # If the operation has the `auth` property and the client has a
+        # configured auth scheme preference, use both to compute the
+        # auth type. Otherwise, fallback to auth/auth_type resolution.
+        if operation_model.auth and self.meta.config.auth_scheme_preference:
+            preferred_schemes = self.meta.config.auth_scheme_preference.split(
+                ','
+            )
+            auth_type = resolve_auth_scheme_preference(
+                preferred_schemes, operation_model.auth
+            )
+        else:
+            auth_type = operation_model.resolved_auth_type
+        request_context = {
+            'client_region': self.meta.region_name,
+            'client_config': self.meta.config,
+            'has_streaming_input': operation_model.has_streaming_input,
+            'auth_type': auth_type,
+            'unsigned_payload': operation_model.unsigned_payload,
+            'auth_options': self._service_model.metadata.get('auth'),
+        }
+    
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context['endpoint_properties'] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            f'before-call.{service_id}.{operation_name}',
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            f'after-call.{service_id}.{operation_name}',
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get("Error", {})
+            error_code = request_context.get(
+                'error_code_override'
+            ) or error_info.get("Code")
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.errorfactory.BucketAlreadyOwnedByYou: An error occurred (BucketAlreadyOwnedByYou) when calling the PutBucketWebsite operation: Your previous request to create the named bucket succeeded and you already own it.
+
+/usr/local/lib/python3.11/site-packages/botocore/client.py:1094: BucketAlreadyOwnedByYou</failure></testcase></testsuite></testsuites>

@@ -784,6 +784,82 @@ s3-tests-report:
     echo "  Full run log: ./s3-tests/logs/last-run.log   |   Re-run: just s3-tests-chunked"
     echo "=================================================================="
 
+# Third-party S3 suite (github.com/michalszynkiewicz/s3-testsuite), run in-cluster.
+# Runs the standard (P0-P3) and extended (concurrency/consistency/throughput)
+# suites, each against a freshly restarted gateway, while sampling gateway
+# memory. Writes JUnit XML + markdown matrices to ./s3-testsuite/results/<suite>/,
+# alongside the authors' published AWS / MinIO / SeaweedFS-4.13 results as
+# reference columns.
+#   just s3-testsuite                  # both suites
+#   just s3-testsuite standard         # one suite (standard | extended)
+# Third-party S3 suite (standard + extended) in-cluster, with gateway memory sampling.
+s3-testsuite suites="standard extended":
+    #!/usr/bin/env bash
+    set -uo pipefail
+    img=sw-s3-testsuite; pod=s3-testsuite-runner; provider=seaweedfs-4.48-k8s
+    tmp="$(mktemp -d)"; mon=""
+    trap '[ -n "$mon" ] && kill $mon 2>/dev/null; kubectl -n {{namespace}} delete pod $pod --ignore-not-found --wait=false >/dev/null 2>&1; rm -rf "$tmp"' EXIT
+    echo ">> Building $img and importing it into k3d..."
+    docker build -q -t $img s3-testsuite/ >/dev/null
+    k3d image import $img -c {{cluster}} >/dev/null 2>&1
+    # Provider config consumed by the suite's --provider flag.
+    printf '%s\n' "name: $provider" \
+        "endpoint: http://{{release}}-s3.{{namespace}}.svc.cluster.local:{{s3_port}}" \
+        "region: us-east-1" "access_key: {{s3_access_key}}" "secret_key: {{s3_secret_key}}" \
+        "path_style: true" > "$tmp/provider.yaml"
+    kubectl -n {{namespace}} create configmap s3-testsuite-provider --from-file=provider.yaml="$tmp/provider.yaml" \
+        --dry-run=client -o yaml | kubectl apply -f - >/dev/null
+    gw() { kubectl -n {{namespace}} get pod -l app.kubernetes.io/component=s3 -o jsonpath="{.items[0].$1}"; }
+    for suite in {{suites}}; do
+        case $suite in
+            standard) dir=tests; ref=results ;;
+            extended) dir=tests_extended; ref=results_extended ;;
+            *) echo "unknown suite: $suite (use standard | extended)"; exit 1 ;;
+        esac
+        out=s3-testsuite/results/$suite; mkdir -p "$out"
+        echo ">> [$suite] restarting S3 gateway for a clean memory baseline..."
+        kubectl -n {{namespace}} rollout restart deploy/{{release}}-s3 >/dev/null
+        kubectl -n {{namespace}} rollout status deploy/{{release}}-s3 --timeout=180s >/dev/null
+        sleep 3
+        gwpod=$(gw metadata.name)
+        # Sample the gateway's cgroup memory every 2s for the whole run.
+        ( while sleep 2; do
+            kubectl -n {{namespace}} exec "$gwpod" -- sh -c 'echo $(( $(cat /sys/fs/cgroup/memory.current)/1048576 ))' 2>/dev/null
+          done ) > "$tmp/mem-$suite" & mon=$!
+        kubectl -n {{namespace}} delete pod $pod --ignore-not-found >/dev/null
+        cmd="python -m pytest $dir/ --provider=$provider --junitxml=/tmp/r.xml -p no:cacheprovider -q -rfE --no-header; echo ===JUNIT-BEGIN===; cat /tmp/r.xml; echo; echo ===JUNIT-END==="
+        jq -n --arg ns {{namespace}} --arg name $pod --arg img $img --arg cmd "$cmd" --arg prov "$provider" '{
+            apiVersion: "v1", kind: "Pod",
+            metadata: {name: $name, namespace: $ns},
+            spec: {restartPolicy: "Never",
+              containers: [{name: "suite", image: $img, imagePullPolicy: "Never",
+                command: ["sh", "-c", $cmd],
+                volumeMounts: [{name: "provider", mountPath: ("/suite/providers/" + $prov + ".yaml"), subPath: "provider.yaml"}]}],
+              volumes: [{name: "provider", configMap: {name: "s3-testsuite-provider"}}]}}' \
+            | kubectl apply -f - >/dev/null
+        echo ">> [$suite] running $dir/ in-cluster (pod $pod)..."
+        start=$(date +%s)
+        until kubectl -n {{namespace}} get pod $pod -o jsonpath='{.status.phase}' 2>/dev/null | grep -qE 'Succeeded|Failed'; do sleep 3; done
+        kill $mon 2>/dev/null; mon=""
+        kubectl -n {{namespace}} logs $pod > "$tmp/log-$suite"
+        sed -n '/^===JUNIT-BEGIN===$/,/^===JUNIT-END===$/p' "$tmp/log-$suite" | sed '1d;$d' > "$out/$provider.xml"
+        sed '/^===JUNIT-BEGIN===$/,$d' "$tmp/log-$suite" > "$out/$provider.log"
+        restarts=$(gw 'status.containerStatuses[0].restartCount'); reason=$(gw 'status.containerStatuses[0].lastState.terminated.reason')
+        peak=$(sort -n "$tmp/mem-$suite" | tail -1); last=$(tail -1 "$tmp/mem-$suite")
+        printf 'suite=%s duration=%ss gateway_mem_peak_MiB=%s gateway_mem_end_MiB=%s gateway_restarts=%s last_termination=%s\n' \
+            "$suite" "$(( $(date +%s)-start ))" "${peak:-NA}" "${last:-NA}" "${restarts:-NA}" "${reason:-none}" | tee "$out/$provider.run.txt"
+        echo "   $(tail -1 "$out/$provider.log")"
+        # Reference columns: the suite authors' published results (Docker Compose, early 2026).
+        for p in aws minio seaweedfs garage; do
+            docker run --rm $img cat "/suite/$ref/$p.xml" > "$out/ref-$p.xml" 2>/dev/null || rm -f "$out/ref-$p.xml"
+        done
+        [ -f "$out/ref-seaweedfs.xml" ] && mv "$out/ref-seaweedfs.xml" "$out/ref-seaweedfs-4.13.xml"
+        [ -f "$out/ref-garage.xml" ] && mv "$out/ref-garage.xml" "$out/ref-garage-v1.0.1.xml"
+        script=matrix.py; [ "$suite" = extended ] && script=matrix_extended.py
+        docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd)/$out:/r" $img python report/$script /r >/dev/null 2>&1
+        echo "   matrix: $out/matrix.md"
+    done
+
 # Show cluster leader + volume topology from the master API (proves P1-07).
 topology:
     #!/usr/bin/env bash
